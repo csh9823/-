@@ -11,4 +11,10 @@ public class VueController {
     	String id = "김말자";   	
         return id;
     }
+    
+    @GetMapping("/testvue2") // GET 요청과 "/greeting" 경로에 대한 매핑
+    public String testvue2() {
+    	String id = "김말자";   	
+        return id;
+    }
 }
