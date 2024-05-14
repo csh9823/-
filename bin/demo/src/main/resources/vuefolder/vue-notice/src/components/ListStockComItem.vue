@@ -1,17 +1,12 @@
 <template>
     <div>
-
-
-
-        
-        <h4>구매완료 표</h4>
+        <h4>입고완료 표</h4>
         <div class="filter-container">
 
             <div class="dropbox">
                 <Dropbox :options="categoryOptions" v-model="selectedCategory" />
             </div>
             <div class="search-container">
-                <Dropbox :options="searchOptions" v-model="selectedCategory" />
                 <input type="text" v-model="searchKeyword" placeholder="제품명으로 검색">
                 <button @click="search">검색</button>
             </div>
@@ -25,13 +20,13 @@
             <thead>
                 <tr>
                     <th>구분</th>
-                    <th>제품명</th>
+                    <th>제품 명</th>
                     <th>단위</th>
                     <th>박스 개수</th>
                     <th>수량</th>
                     <th>입고가</th>
                     <th>구매 회사</th>
-                    <th>구매일</th>
+                    <th>입고날</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,19 +62,12 @@ import Dropbox from './ui/dropbox.vue';
     const startDate = ref('');
     const endDate = ref('');
 
-    const selectedSearchOption = ref('제품명');
-
     const categoryOptions = computed(() => [
         { label: '전체보기', value: 'all' },
         { label: '식품', value: '식품' },
         { label: '생활용품', value: '생활용품' },
         { label: '가나다라', value: '가나다라' }
     ]);
-
-    const searchOptions = computed(() => [
-        { label: '제품명', value: '제품명'},
-        { label: '거래처', value: '구매 회사'}
-    ])
 
     // 오늘의 날짜를 구하기 위한 함수
     function getTodayDate() {
@@ -115,7 +103,6 @@ import Dropbox from './ui/dropbox.vue';
     //         filteredList = filteredList.filter(item => item.category === selectedCategory.value);
     //     }
     //     if (searchKeyword.value.trim() !== '') {
-
     //         const keyword = searchKeyword.value.trim().toLowerCase();
     //         filteredList = filteredList.filter(item => item.productName.toLowerCase().includes(keyword));
     //     }
@@ -150,8 +137,6 @@ import Dropbox from './ui/dropbox.vue';
     }
 
     function search() {
-        console.log(searchOptions.value);
-        console.log(selectedSearchOption.value);
         let newList = purchaseList;
         if (searchKeyword.value.trim() !== '') {
             const keyword = searchKeyword.value.trim().toLowerCase();
