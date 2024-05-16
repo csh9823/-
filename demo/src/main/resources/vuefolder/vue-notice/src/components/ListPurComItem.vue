@@ -1,9 +1,5 @@
 <template>
     <div>
-
-
-
-        
         <h4>구매완료 표</h4>
         <div class="filter-container">
 
