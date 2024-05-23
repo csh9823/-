@@ -16,7 +16,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import ListPurComItem from '../components/ListPurComItem.vue';
-import axios from 'axios';
 
 const datas = ref([]);
 const loading = ref(false);

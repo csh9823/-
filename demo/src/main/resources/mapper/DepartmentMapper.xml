@@ -1,0 +1,53 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.DepartmentMapper">
+ 
+ <select id="DepartmentList" resultType="HashMap">
+	select 
+    	code,
+    	value,
+    	value revalue
+	from department_history
+	where SITUATION = 1
+ </select>
+ 
+<delete id="Departmentdelete" parameterType="java.util.Map">
+        DELETE FROM department WHERE department_code = #{CODE}
+</delete>
+ 
+ <update id="Departmentupdatecode" parameterType="Map">
+		UPDATE department_history
+			SET SITUATION = 0
+		WHERE code = #{CODE}
+ </update>
+ 
+ <update id="DepartmentupdatecomCdvalue" parameterType="Map">
+		UPDATE comCd
+			SET value = #{VALUE}
+		WHERE value = #{revalue}
+ </update>
+ 
+<update id="Departmentupdatevalue" parameterType="Map">
+		UPDATE department_history
+			SET value = #{VALUE}
+		WHERE value = #{revalue}
+ </update>
+ 
+<insert id="insertDepartment" parameterType="map" useGeneratedKeys="false">
+    <selectKey keyProperty="departmentCode" resultType="int" order="BEFORE">
+        SELECT department_sequence.NEXTVAL FROM dual
+    </selectKey>
+    INSERT INTO department (department_code)
+    VALUES (#{departmentCode})
+</insert>
+
+<insert id="DepartmentCategoryDetail" parameterType="map">
+    INSERT INTO comCd (code, value,div)
+    VALUES (#{departmentCode}, #{value},#{div})
+</insert>
+
+ <insert id="Departmenthistory" parameterType="map">
+    INSERT INTO department_history (code, value,situation)
+    VALUES (#{departmentCode}, #{value},#{situation})
+</insert>
+ 
+</mapper>
