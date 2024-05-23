@@ -13,6 +13,7 @@ import Account from "../components/jincomponents/account.vue"
 import Box from "../components/jincomponents/box.vue"
 import Productmaster from "../components/jincomponents/Productmaster.vue"
 import Purchase from "../components/jincomponents/purchase.vue"
+import Store from "../components/jincomponents/store.vue"
 
 const routes = [
     { path: '/', component: HomeView},
@@ -28,7 +29,8 @@ const routes = [
     { path: '/account', component: Account},
     { path: '/box', component: Box},
     { path: '/Productmaster', component: Productmaster},
-    { path: '/Purchase', component: Purchase}
+    { path: '/Purchase', component: Purchase},
+    { path: '/store', component: Store}
 ]
 
 
