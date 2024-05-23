@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.StoreMapper">
@@ -13,3 +14,49 @@
 
 
 
+=======
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.StoreMapper">
+ 
+<select id="storelist" resultType="Map">
+SELECT
+    s.store_no AS code,
+    s.category_value AS value,
+    s.product_name AS name,
+    s.store_quantity AS quantity,
+    s.store_price AS price,
+    s.account_value AS account,
+    (s.store_quantity / bq.boxcount) AS boxcounted,
+    bq.boxcount AS BOXCOUNT
+FROM
+    store s
+JOIN
+    box_quantity bq ON s.boxcode = bq.boxcode
+WHERE
+    s.store_situation = '0'
+</select>
+ 
+<update id="stoupdate" parameterType="Map">
+UPDATE store
+SET store_situation = 1,
+    store_date = TO_DATE(#{datees}, 'YYYY-MM-DD'),
+WHERE store_no = #{CODE}
+</update>
+
+<update id="stoupdatecount" parameterType="Map">
+UPDATE store
+	SET store_situation = 1,
+    	store_date = TO_DATE(#{datees}, 'YYYY-MM-DD'),
+    	store_quantity = #{updatecount}
+WHERE store_no = #{CODE}
+</update>
+
+<select id="stocountdate" resultType="int" parameterType="Map">
+	select 
+		store_quantity
+	from store
+	where store_no = #{CODE}
+</select>
+
+</mapper>
+>>>>>>> branch 'master' of https://github.com/csh9823/demo.git

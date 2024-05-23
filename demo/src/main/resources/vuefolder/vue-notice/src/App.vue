@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <!-- <router-link to="/">홈</router-link> 
   <br/>
   <br/>
@@ -17,6 +18,16 @@
       <router-view></router-view>
     </div>
   </div>
+=======
+    <router-link to="/division">분류등록</router-link> 
+    <router-link to="/department">부서등록</router-link> 
+    <router-link to="/account">거래처 등록</router-link>
+    <router-link to="/box">단위코드 등록</router-link>
+    <router-link to="/Productmaster">제품마스터 등록</router-link>
+    <router-link to="/Purchase">구매</router-link>
+    <router-link to="/Store">입고 대기</router-link>
+  <router-view></router-view>
+>>>>>>> branch 'master' of https://github.com/csh9823/demo.git
 </template>
 
 <script setup>

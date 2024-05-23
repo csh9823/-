@@ -29,8 +29,8 @@ WHERE totalcount &lt; appcount
 
  <insert id="storeadd" parameterType="Map">
 INSERT INTO store 
-(category_value, product_name, account_value, boxcode, store_quantity, store_situation, store_price) 
-VALUES (#{CATEVAL},#{NAME},#{ACVALUE},#{BOXCODE},#{thisCount},'0',#{price})	
+(store_no,category_value, product_name, account_value, boxcode, store_quantity, store_situation, store_price) 
+VALUES (store_no_seq.NEXTVAL,#{CATEVAL},#{NAME},#{ACVALUE},#{BOXCODE},#{thisCount},'0',#{price})	
  </insert>
 
 <insert id="purchaseadd" parameterType="Map">

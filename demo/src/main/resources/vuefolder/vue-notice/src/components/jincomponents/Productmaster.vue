@@ -347,6 +347,7 @@ const accList = async () => {
         width: 130px;
     }
     .reinput{
-        width: 80px;
+        width: 80%;
+        height: 80%;
     }
     </style>

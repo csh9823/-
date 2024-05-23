@@ -30,7 +30,11 @@ const routes = [
     { path: '/box', component: Box},
     { path: '/Productmaster', component: Productmaster},
     { path: '/Purchase', component: Purchase},
+<<<<<<< HEAD
     { path: '/store', component: Store}
+=======
+    { path: '/Store', component: Store}
+>>>>>>> branch 'master' of https://github.com/csh9823/demo.git
 ]
 
 

@@ -17,6 +17,7 @@ import com.example.demo.service.CatagoryService;
 import com.example.demo.service.DepartmentService;
 import com.example.demo.service.JinPurchaseService;
 import com.example.demo.service.ProductService;
+import com.example.demo.service.StoreService;
 
 @RestController
 public class VueController {
@@ -38,6 +39,9 @@ public class VueController {
 	
 	@Autowired
 	JinPurchaseService jinPur;
+	
+	@Autowired
+	StoreService stoser;
 	//대분류 등록
 	@PostMapping("/api/catagoryadd")
 	public void catagoreadd(@RequestParam("cataname") String cataname) {
@@ -148,6 +152,18 @@ public class VueController {
 	@PostMapping("/api/jinPurchaseadd")
 	public void jinPurchaseadd(@RequestBody List<HashMap<String, Object>> purchaseData) {
 		jinPur.purchaseadd(purchaseData);
+	}
+	
+	// 입고 중 리스트
+	@PostMapping("/api/stolist")
+	public List<HashMap<String, Object>> stolist() {
+		return stoser.storelist();
+	}
+	
+	// 입고 업데이트
+	@PostMapping("/api/stoupdate")
+	public void stoupdate(@RequestBody List<HashMap<String, Object>> stoData) {
+		stoser.stoupdate(stoData);
 	}
 }
 
