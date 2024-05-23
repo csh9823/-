@@ -73,7 +73,7 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import axios from 'axios';
-import '../../css/box.css'
+// import '../../css/box.css'
 
 // 변수 선언
 const boxList = ref([]);

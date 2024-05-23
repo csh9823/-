@@ -11,19 +11,24 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Purchase {
-	
+public class Release {
+
 	private String category_value;
 	private String product_name;
+	private String department_value;
 	private String boxcode;
-	private int purchase_count;
-	private int purchase_quantity;
+	private int release_quantity;
+	private Date release_date;
 	private int store_price;
-	private String account_value;
-	private Date purchase_date;
+	private int release_price;
 	
-	// 박스
+	// 입고일, 박스 단위, 입고 수량(재고)
+	
 	private String boxname;
 	private int boxcount;
-
+	
+	// 입고테이블
+	private Date store_date;
+	private int store_quantity;
+	
 }

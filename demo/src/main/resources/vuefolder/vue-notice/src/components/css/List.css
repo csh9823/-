@@ -1,0 +1,143 @@
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+
+}
+
+.dropbox {
+    flex: 1 1 20%;
+    margin-right: 10px;
+}
+
+
+/* 검색 */
+.search-container {
+    display: flex;
+    align-items: center;
+    flex: 1 1 40%;
+    margin-right: 10px;
+}
+
+.search-container select {
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.search-container input[type="text"] {
+    flex: 1;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.search-container button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
+}
+
+
+/* 날짜 */
+.date-container {
+    
+    display: flex;
+    align-items: center;
+    flex: 1 1 30%;
+    justify-content: space-between;
+}
+
+.date-container input[type="date"] {
+    margin-right: 10px;
+    padding: 5px;
+    width: 150px; /* 너비 조정 */
+    font-size: 14px; /* 폰트 크기 조정 */
+    /* border: none; 테두리 해제 */
+    box-sizing: border-box; /* 패딩 및 여백 포함하여 너비 설정 */
+}
+
+/* 정렬 버튼 스타일 */
+.date-container .sortBtn {
+    margin-left: auto;
+}
+
+.date-container .sortBtn button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.date-container .sortBtn button:hover {
+    background-color: #0056b3;
+}
+
+/* 테이블 */
+table {
+    width: 1000px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+/* 표 헤더 스타일 */
+th {
+    background-color: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* 표 데이터(셀) 스타일 */
+td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* 짝수 행 배경색 */
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* 마우스를 갖다 대었을 때 표시되는 효과 */
+tbody tr:hover {
+    background-color: #ddd;
+}
+
+
+
+/* 전체보기 버튼 컨테이너 스타일 */
+.allShow {
+    text-align: center;
+    margin-top: 5px;
+    margin-right: 20px;
+}
+
+/* 전체보기 버튼 스타일 */
+.allShow button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.allShow button:hover {
+    background-color: #218838;
+}
+
+
+
