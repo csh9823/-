@@ -1,0 +1,28 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.BoxMapper">
+ 
+ <select id="boxList" resultType="HashMap">
+	select 
+	    boxcode,
+	    boxname,
+	    boxcount,
+	    boxcode reboxcode
+	from box_quantity
+ </select>
+ 
+ <insert id="boxadd" parameterType="Map">
+INSERT INTO box_quantity (boxcode, boxname, boxcount) VALUES (#{boxcode}, #{boxname}, #{boxcount})	
+ </insert>
+ 
+<delete id="Boxdelete" parameterType="java.util.Map">
+        DELETE FROM box_quantity WHERE boxcode = #{BOXCODE}
+</delete>
+
+<update id="Boxupdate" parameterType="java.util.Map">
+		UPDATE box_quantity
+			SET boxcode = #{BOXCODE},
+				boxname = #{BOXNAME},
+				boxcount = #{BOXCOUNT}
+		WHERE boxcode = #{REBOXCODE}
+</update>
+</mapper>

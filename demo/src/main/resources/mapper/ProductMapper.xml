@@ -1,0 +1,40 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ProductMapper">
+ 
+<insert id="productadd"  parameterType="map">
+INSERT INTO product (product_code, product_name, app_quantity, category_value, account_value) VALUES 
+(#{code},#{name},#{quantity},#{catavalue},#{accountvalue})
+</insert>
+
+<select id="productseachnamelist" parameterType="Map">
+select 
+product_code code,
+product_name name,
+app_quantity quantity,
+category_value cavalue,
+account_value acvalue
+from product
+where product_name= #{searchinto} and category_value = #{catavalue}
+</select>
+
+<select id="productseachacvaluelist" parameterType="Map">
+select 
+product_code code,
+product_name name,
+app_quantity quantity,
+category_value cavalue,
+account_value acvalue
+from product
+where account_value= #{searchinto} and category_value = #{catavalue}
+</select>
+
+<update id="productupdate" parameterType="Map">
+		UPDATE product
+			SET app_quantity = #{QUANTITY}
+		WHERE product_code = #{CODE}	
+</update>
+
+<delete id="productdelete" parameterType="Map">
+	 DELETE FROM product WHERE product_code = #{CODE}
+</delete>
+</mapper>

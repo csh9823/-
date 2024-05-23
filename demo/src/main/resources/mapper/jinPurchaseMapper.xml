@@ -1,0 +1,41 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.jinPurchaseMapper">
+ 
+<select id="jinPurchaseList" resultType="Map">
+SELECT 
+       acvalue,
+       cateval,
+       name,
+       totalcount,
+       appcount,
+       boxcount,
+       boxcode
+FROM (
+    SELECT 
+           p.product_name AS name,
+           SUM(s.store_quantity) AS totalcount,
+           p.app_quantity AS appcount,
+           bq.boxcount,
+           p.category_value AS cateval,
+           bq.boxcode,
+           p.account_value AS acvalue
+    FROM product p
+    JOIN store s ON p.product_name = s.product_name
+    JOIN box_quantity bq ON s.boxcode = bq.boxcode
+    GROUP BY p.product_name, p.app_quantity, bq.boxcount, p.category_value, bq.boxcode, p.account_value
+) subquery
+WHERE totalcount &lt; appcount
+</select>
+
+ <insert id="storeadd" parameterType="Map">
+INSERT INTO store 
+(category_value, product_name, account_value, boxcode, store_quantity, store_situation, store_price) 
+VALUES (#{CATEVAL},#{NAME},#{ACVALUE},#{BOXCODE},#{thisCount},'0',#{price})	
+ </insert>
+
+<insert id="purchaseadd" parameterType="Map">
+INSERT INTO purchase (category_value, product_name, boxcode, purchase_quantity, store_price, account_value, purchase_date) 
+VALUES (#{CATEVAL}, #{NAME}, #{BOXCODE}, #{thisCount}, #{price}, #{ACVALUE}, TRUNC(sysdate))	
+</insert>
+
+</mapper>

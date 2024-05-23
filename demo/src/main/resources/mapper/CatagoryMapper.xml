@@ -1,0 +1,53 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.CatagoryMapper">
+ 
+ <select id="CatagoryList" resultType="HashMap">
+	select 
+    	code,
+    	value,
+    	value revalue
+	from category_history
+	where SITUATION = 1
+ </select>
+ 
+<delete id="catagorydelete" parameterType="java.util.Map">
+        DELETE FROM category WHERE category_code = #{CODE}
+</delete>
+ 
+ <update id="catagoryupdatecode" parameterType="Map">
+		UPDATE category_history
+			SET SITUATION = 0
+		WHERE code = #{CODE}
+ </update>
+ 
+ <update id="catagoryupdatecomCdvalue" parameterType="Map">
+		UPDATE comCd
+			SET value = #{VALUE}
+		WHERE value = #{revalue}
+ </update>
+ 
+<update id="catagoryupdatevalue" parameterType="Map">
+		UPDATE category_history
+			SET value = #{VALUE}
+		WHERE value = #{revalue}
+ </update>
+ 
+<insert id="insertCategory" parameterType="map" useGeneratedKeys="false">
+    <selectKey keyProperty="categoryCode" resultType="int" order="BEFORE">
+        SELECT category_sequence.NEXTVAL FROM dual
+    </selectKey>
+    INSERT INTO category (category_code)
+    VALUES (#{categoryCode})
+</insert>
+
+<insert id="insertCategoryDetail" parameterType="map">
+    INSERT INTO comCd (code, value,div)
+    VALUES (#{categoryCode}, #{value},#{div})
+</insert>
+
+ <insert id="insertCategoryhistory" parameterType="map">
+    INSERT INTO category_history (code, value,situation)
+    VALUES (#{categoryCode}, #{value},#{situation})
+</insert>
+ 
+</mapper>

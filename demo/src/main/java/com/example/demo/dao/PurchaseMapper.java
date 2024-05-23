@@ -9,7 +9,6 @@ import com.example.demo.vo.Purchase;
 @Mapper
 public interface PurchaseMapper {
 	
-	
 	public List<Purchase> purchaseList();
 
 }
