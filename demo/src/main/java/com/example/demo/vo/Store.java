@@ -1,5 +1,6 @@
 package com.example.demo.vo;
 
+
 import java.util.Date;
 
 import lombok.Getter;
@@ -11,19 +12,20 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Purchase {
+public class Store {
 	
+
+	// store table
 	private String category_value;
 	private String product_name;
-	private String boxcode;
-	private int purchase_count;
-	private int purchase_quantity;
-	private int store_price;
 	private String account_value;
-	private Date purchase_date;
+	private String boxcode;
+	private int store_quantity;
+	private String store_situation;
+	private Date store_date;
+	private int store_price;
 	
-	// 박스
+	// box quantity table
 	private String boxname;
 	private int boxcount;
-
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.service.PurchaseService;
+import com.example.demo.vo.CategoryHistory;
 import com.example.demo.vo.Purchase;
 
 @RestController
@@ -21,7 +22,6 @@ public class PurchaseController {
 	
 	@PostMapping("/api/purchaseList")
 	public Map<String, Object> purchaseList () {
-		System.out.println();
 		Map<String, Object> map = new HashMap<>();
 		
 		List<Purchase> list = ps.purchaseList();
@@ -37,4 +37,23 @@ public class PurchaseController {
 		
 		return map;
 	}
+	
+	@PostMapping("/api/categoryHistory")
+	public Map<String, Object> categoryHistory () {
+		Map<String, Object> map = new HashMap<>();
+		
+		List<CategoryHistory> list = ps.categoryHistory();
+		
+		if (list.isEmpty()) {
+			map.put("res", "fail");
+			
+		} else {
+			map.put("res", "success");
+			map.put("data", list);
+		}
+		
+		
+		return map;
+	}
+	
 }

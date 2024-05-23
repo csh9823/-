@@ -1,24 +1,25 @@
 <template>
     <div>
-
-
-
-        
-        <h4>구매완료 표</h4>
         <div class="filter-container">
-
             <div class="dropbox">
-                <Dropbox :options="categoryOptions" v-model="selectedCategory" />
+                <Dropbox v-model="selectedCategory" />
             </div>
             <div class="search-container">
-                <Dropbox :options="searchOptions" v-model="selectedCategory" />
-                <input type="text" v-model="searchKeyword" placeholder="제품명으로 검색">
+                <select v-model="selectedSearchOption">
+                    <option v-for="(option,index) in searchOptions" :key="index" :value="option.value">{{ option.label }}</option>
+                </select>
+                <input type="text" v-model="searchKeyword" placeholder="검색">
                 <button @click="search">검색</button>
             </div>
             <div class="date-container">
                 <input type="date" v-model="startDate" placeholder="시작 날짜">
                  ~ 
                 <input type="date" v-model="endDate" placeholder="종료 날짜" :max="maxEndDate">
+                <div class="sortBtn">
+                    <button @click="toggleSortOrder">
+                        {{ sortOrder === 'asc' ? '날짜 내림차순 정렬' : '날짜 오름차순 정렬' }}
+                    </button>
+                </div>
             </div>
         </div>
             <table>
@@ -36,49 +37,54 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in filteredItemList" :key="index">
-                    <td>{{ item.category }}</td>
-                    <td>{{ item.productName }}</td>
-                    <td>{{ item.unit }}</td>
-                    <td>{{ item.boxCount }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.unitPrice }}</td>
-                    <td>{{ item.company }}</td>
-                    <td>{{ item.date }}</td>
+                    <td>{{ item.category_value }}</td>
+                    <td>{{ item.product_name }}</td>
+                    <td>{{ item.boxname }}<br/>{{ item.boxcount }} EA</td>
+                    <td>{{ item.purchase_count }}</td>
+                    <td>{{ item.purchase_quantity}}</td>
+                    <td>{{ item.store_price }}</td>
+                    <td>{{ item.account_value }}</td>
+                    <td>{{ formatDate(item.purchase_date) }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+    
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import Dropbox from './ui/dropbox.vue';
 
+    const props = defineProps({
+        datas: {
+            type: Array,
+            required: true
+        },
+    })
+
+    const processedData = ref(props.datas);
+
+    console.log("datas: " , processedData);
+
     const purchaseList = [
-        { category: '식품', productName: '사과', unit: '개', boxCount: 10, quantity: 100, unitPrice: 1000, company: '과일농장', date: '2024-05-13' },
-        { category: '식품', productName: '바나나', unit: '송이', boxCount: 5, quantity: 50, unitPrice: 1500, company: '과일농장', date: '2024-05-13' },
-        { category: '생활용품', productName: '치약', unit: '개', boxCount: 20, quantity: 200, unitPrice: 500, company: '세이프마트', date: '2024-05-12' },
-        { category: '생활용품', productName: '샴푸', unit: '병', boxCount: 10, quantity: 100, unitPrice: 2000, company: '세이프마트', date: '2024-05-12' }
+        ...processedData.value
     ]
 
         
-    const selectedCategory = ref('all'); // 기본값은 전체보기
+    // const selectedCategory = ref(''); // 기본값은 전체보기
+    const selectedCategory = ref('all');
     const searchKeyword = ref('');
     const startDate = ref('');
     const endDate = ref('');
 
-    const selectedSearchOption = ref('제품명');
+    const selectedSearchOption = ref('product_name');
 
-    const categoryOptions = computed(() => [
-        { label: '전체보기', value: 'all' },
-        { label: '식품', value: '식품' },
-        { label: '생활용품', value: '생활용품' },
-        { label: '가나다라', value: '가나다라' }
-    ]);
+    console.log(selectedCategory);
 
     const searchOptions = computed(() => [
-        { label: '제품명', value: '제품명'},
-        { label: '거래처', value: '구매 회사'}
+        { label: '제품명', value: 'product_name'},
+        { label: '거래처', value: 'account_value'}
     ])
 
     // 오늘의 날짜를 구하기 위한 함수
@@ -107,65 +113,73 @@ import Dropbox from './ui/dropbox.vue';
     const maxEndDate = getTodayDate();
 
 
-
-    // 자동검색
-    // const filteredItemList = computed(() => {
-    //     let filteredList = purchaseList;
-    //     if (selectedCategory.value !== 'all') {
-    //         filteredList = filteredList.filter(item => item.category === selectedCategory.value);
-    //     }
-    //     if (searchKeyword.value.trim() !== '') {
-
-    //         const keyword = searchKeyword.value.trim().toLowerCase();
-    //         filteredList = filteredList.filter(item => item.productName.toLowerCase().includes(keyword));
-    //     }
-    //     if (startDate.value.trim() !== '' && endDate.value.trim() !== '') {
-    //         const start = new Date(startDate.value);
-    //         const end = new Date(endDate.value);
-    //         filteredList = filteredList.filter(item => {
-    //             const itemDate = new Date(item.date);
-    //             return itemDate >= start && itemDate <= end;
-    //         });
-    //     }
-    //     return filteredList;
-    // });
-    
-
     const filteredItemList = ref(purchaseList);
 
-    function updateFilteredList() {
+
+    // 날짜, 카테고리별 조회
+    function filteredList() {
         let newList = purchaseList;
+
         if (selectedCategory.value !== 'all') {
-            newList = newList.filter(item => item.category === selectedCategory.value);
+            console.log(selectedCategory.value)
+            newList = newList.filter(item => item.category_value === selectedCategory.value);
+            console.log(newList)
         }
         if (startDate.value.trim() !== '' && endDate.value.trim() !== '') {
             const start = new Date(startDate.value);
             const end = new Date(endDate.value);
             newList = newList.filter(item => {
-                const itemDate = new Date(item.date);
+                const itemDate = new Date(item.purchase_date);
                 return itemDate >= start && itemDate <= end;
             });
         }
         filteredItemList.value = newList;
     }
 
+
+    // 제품, 거래처 조건검색
     function search() {
-        console.log(searchOptions.value);
         console.log(selectedSearchOption.value);
         let newList = purchaseList;
         if (searchKeyword.value.trim() !== '') {
             const keyword = searchKeyword.value.trim().toLowerCase();
-            newList = newList.filter(item => item.productName.toLowerCase().includes(keyword));
+            if (selectedSearchOption.value == 'product_name') {
+                newList = newList.filter(item => item.product_name.toLowerCase().includes(keyword));
+            } else {
+                newList = newList.filter(item => item.account_value.toLowerCase().includes(keyword));
+            }
         }
         filteredItemList.value = newList;
     }
 
     watch([selectedCategory, startDate, endDate], () => {
-        updateFilteredList();
+        filteredList();
     });
 
+    onMounted(() => {
+        filteredList();
+    })
     
+
+    // 날짜 형식 변경    
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString();
+    };
+
+    // 오름차순 내림차순
+    let sortOrder = ref('asc');
     
+
+    const toggleSortOrder = () => {
+        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+        if (sortOrder.value === 'asc') {
+            filteredItemList.value.sort((a, b) => new Date(a.purchase_date) - new Date(b.purchase_date));
+        } else {
+            filteredItemList.value.sort((a, b) => new Date(b.purchase_date) - new Date(a.purchase_date));
+        }
+    };
+
 
 </script>
 
@@ -173,31 +187,88 @@ import Dropbox from './ui/dropbox.vue';
 
     .filter-container {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+
     }
 
     .dropbox {
-        text-align: left;
-        
+        flex: 1 1 20%;
+        margin-right: 10px;
     }
 
     .search-container {
-        text-align: center;
-        
+        display: flex;
+        align-items: center;
+        flex: 1 1 40%;
+        margin-right: 10px;
     }
 
+    .search-container select {
+        margin-right: 10px;
+        padding: 5px;
+    }
+
+    .search-container input[type="text"] {
+        flex: 1;
+        padding: 5px;
+        margin-right: 10px;
+    }
+    
+    .search-container button {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+
+    .search-container button:hover {
+        background-color: #0056b3;
+    }
+    
     .date-container {
         
-        text-align: right;
+        display: flex;
+        align-items: center;
+        flex: 1 1 30%;
+        justify-content: space-between;
+    }
+    
+    .date-container input[type="date"] {
+        margin-right: 10px;
+        padding: 5px;
+    }
+    
+    /* 정렬 버튼 스타일 */
+    .date-container .sortBtn {
+        margin-left: auto;
+    }
+    
+    .date-container .sortBtn button {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    
+    .date-container .sortBtn button:hover {
+        background-color: #0056b3;
     }
 
+    /* 테이블 */
     table {
-        width: 100%;
+        width: 1000px;
         border-collapse: collapse;
         margin-bottom: 20px;
     }
-
+    
     /* 표 헤더 스타일 */
     th {
         background-color: #f2f2f2;
@@ -205,7 +276,7 @@ import Dropbox from './ui/dropbox.vue';
         text-align: left;
         border: 1px solid #ddd;
     }
-
+    
     /* 표 데이터(셀) 스타일 */
     td {
         padding: 8px;
@@ -221,6 +292,7 @@ import Dropbox from './ui/dropbox.vue';
     tbody tr:hover {
         background-color: #ddd;
     }
+
 
     
 </style>
