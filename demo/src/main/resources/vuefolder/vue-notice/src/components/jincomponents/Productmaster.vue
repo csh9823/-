@@ -102,6 +102,7 @@
 <script setup>
 import { ref,onMounted } from 'vue';
 import axios from 'axios';
+
 const categories = ref([]);
 const accountList = ref([]);
 const selectedCategory = ref('');
@@ -114,6 +115,7 @@ const searchinto = ref('');
 const searchlist = ref([]);
 const deletet = ref([]);
 const edit = ref([]);
+
 // 체크박스 이벤트
 // 수정 체크박스가 선택되었을 때 해당 카테고리의 값을 인풋 폼으로 변경
 const toggleEdit = (index) => {
@@ -158,6 +160,7 @@ const submitForm3 = async () =>{
         console.log(error);
     }
 }
+
 // 검색하기
 const submitForm2 = async () => {
     console.log(selectedCategory.value);
@@ -194,14 +197,13 @@ const submitForm = async () => {
     }; 
     try{
         const response = await axios.post('/api/masteradd',dataToSend);
-         codemaster = '';
-         countmaster = '';
-         namemaster = '';
+        codemaster.value = '';  // .value를 사용하여 값 변경
+        countmaster.value = '';  // .value를 사용하여 값 변경
+        namemaster.value = '';  // .value를 사용하여 값 변경
     }catch(error){
         console.error('Error fetching categories:', error);
     }
 };
-
 
 // 분류 리스트 가져오기
 const cataList = async () => {
@@ -227,10 +229,10 @@ onMounted(() => {
 const accList = async () => {
   try {
     const response = await axios.get('/api/accountList');
-    accountList.value = response.data; // 응답 데이터를 categories에 저장
-        // 데이터 로드 후 기본값 설정
+    accountList.value = response.data; // 응답 데이터를 accountList에 저장
+    // 데이터 로드 후 기본값 설정
     if (accountList.value.length > 0) {
-        selectedaccount.value = accountList.value[0].VALUE; // 첫 번째 항목으로 설정 (원하는 항목으로 변경 가능)
+      selectedaccount.value = accountList.value[0].VALUE; // 첫 번째 항목으로 설정 (원하는 항목으로 변경 가능)
     }
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -238,7 +240,7 @@ const accList = async () => {
 };
 </script>
 
-<style>
+<style scoped>
         .h1div{
             text-align: center;
             font-size: 50px;
@@ -346,6 +348,7 @@ const accList = async () => {
         width: 130px;
     }
     .reinput{
-        width: 80px;
+        width: 80%;
+        height: 80%;
     }
     </style>

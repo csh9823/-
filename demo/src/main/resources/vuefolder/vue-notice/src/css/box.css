@@ -1,0 +1,81 @@
+       .h1div{
+            text-align: center;
+            font-size: 50px;
+        }
+        .insertform {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .insertform2{
+            display: flex;
+            justify-content: center;
+            text-align: center;            
+        }
+        .name{
+            display: flex;
+            align-items: center; /* 수직 정렬을 위해 사용 */
+            width: 100px;
+            height: 30px;
+            border: solid 1px black;
+        }
+        .name span {
+            width: 100%; /* 부모 요소에 대해 100% 너비를 가짐 */
+            text-align: center; /* 텍스트 가로 중앙 정렬 */
+        }
+        .nameinsert{
+            display: flex;
+            align-items: center; /* 수직 정렬을 위해 사용 */
+            height: 30px;
+            border: solid 1px black;
+            text-align: center;
+        }
+        .nameinput {
+        border: none;
+        outline: none;
+        /* 기타 원하는 스타일 설정 */
+        width: 100%;
+    }
+    .insertbtn{
+        margin-top: 10px;
+        margin-left: 245px;
+        display: flex;
+        align-items: center; /* 수직 정렬을 위해 사용 */
+        height: 30px;
+        text-align: center;
+    }
+    .namelist{
+        margin: 0 auto; /* 가운데 정렬을 위해 margin 속성 사용 */
+        justify-content: center;
+        width: 500px;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .listdate{
+        display: flex;
+        justify-content: center;
+    }
+    .listdate div{
+        width: 200px;
+        border: solid 1px black;
+    }
+    .listh1{
+        font-size: 30px;
+        margin-bottom: 10px ;
+    }
+    .btnsubmit{
+        width: 60px;
+        height: 30px;
+    }
+    .insertbtn2{
+        margin-top: 10px;
+        margin-left: 350px;
+        display: flex;
+        align-items: center; /* 수직 정렬을 위해 사용 */
+        height: 30px;
+        text-align: center;
+    }
+    .reinput{
+        width: 100px;
+    }

@@ -5,6 +5,7 @@
     <router-link to="/box">단위코드 등록</router-link>
     <router-link to="/Productmaster">제품마스터 등록</router-link>
     <router-link to="/Purchase">구매</router-link>
+    <router-link to="/Store">입고 대기</router-link>
   <router-view></router-view>
 </template>
 
