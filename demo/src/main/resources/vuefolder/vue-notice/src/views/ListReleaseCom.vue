@@ -1,29 +1,31 @@
 <template>
     <div>
         <h3>
-            입고완료 리스트
+            출고 리스트
         </h3>
     </div>
-    <div v-if="loading">데이터를 로딩 중입니다...</div>
-    <ListStockComItem v-else :datas="datas" />
+    <div v-if="loading">데이터를 로딩중 입니다.</div>
+    <ListReleaseComItem v-else :datas="datas"/>
+    
 </template>
 
 <script setup>
-import axios from 'axios';
-import ListStockComItem from '../components/ListStockComItem.vue';
 import { onMounted, ref } from 'vue';
+import ListReleaseComItem from '../components/ListReleaseComItem.vue';
+import axios from 'axios';
 
 const datas = ref([]);
 const loading = ref(false);
 
+
 const fetchData = async() => {
+
     try {
         loading.value = true;
-        const response = await axios.post('/api/storeList');
-        console.log(response);
-        datas.value = response.data.data;
-        console.log(datas)
+        const response = await axios.post("/api/releaseList")
+        datas.value = response.data.data
         loading.value = false;
+        
     } catch (error) {
         loading.value = false;
         console.log(error)
@@ -33,6 +35,7 @@ const fetchData = async() => {
 onMounted(() => {
     fetchData();
 })
+
 
 
 </script>

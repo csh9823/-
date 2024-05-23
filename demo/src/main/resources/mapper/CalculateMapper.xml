@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.CalculateMapper">
+
+	<select id="calculate">
+		SELECT * FROM store a INNER JOIN release b ON a.product_name = b.product_name INNER JOIN box_quantity c ON b.boxcode = c.boxcode
+	</select>
+
+</mapper>
+
+
+

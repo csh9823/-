@@ -1,25 +1,26 @@
 <template>
     <div>
         <h3>
-            입고완료 리스트
+            정산 페이지
         </h3>
     </div>
     <div v-if="loading">데이터를 로딩 중입니다...</div>
-    <ListStockComItem v-else :datas="datas" />
+    <CalculateItem v-else :datas="datas"/>
 </template>
 
 <script setup>
-import axios from 'axios';
-import ListStockComItem from '../components/ListStockComItem.vue';
 import { onMounted, ref } from 'vue';
+import CalculateItem from '../components/CalculateItem.vue';
+import axios from 'axios';
 
 const datas = ref([]);
 const loading = ref(false);
 
+
 const fetchData = async() => {
     try {
         loading.value = true;
-        const response = await axios.post('/api/storeList');
+        const response = await axios.post('/api/calculate');
         console.log(response);
         datas.value = response.data.data;
         console.log(datas)
@@ -38,5 +39,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+
 
 </style>
