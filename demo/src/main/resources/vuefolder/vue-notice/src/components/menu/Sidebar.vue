@@ -5,6 +5,12 @@
         <router-link to="/listStockCom" exact-active-class="active-link">입고완료 리스트</router-link>
         <router-link to="/calculate" exact-active-class="active-link">정산</router-link>
         <router-link to="/listRelease" exact-active-class="active-link">출고 리스트</router-link>
+        <router-link to="/division">분류등록</router-link> 
+    <router-link to="/department">부서등록</router-link> 
+    <router-link to="/account">거래처 등록</router-link>
+    <router-link to="/box">단위코드 등록</router-link>
+    <router-link to="/Productmaster">제품마스터 등록</router-link>
+    <router-link to="/Purchase">구매</router-link>
     </div>
 </template>
 
@@ -12,7 +18,7 @@
 
 </script>
 
-<style scoped>
+<style>
     /* 사이드바 스타일 */
     .sidebar {
         width: 200px;

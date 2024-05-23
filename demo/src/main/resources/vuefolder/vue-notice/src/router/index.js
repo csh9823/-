@@ -15,6 +15,7 @@ import Productmaster from "../components/jincomponents/Productmaster.vue"
 import Purchase from "../components/jincomponents/purchase.vue"
 
 const routes = [
+    { path: '/', component: HomeView},
     { path: '/login', component: LoginView},
     { path: '/join', component: JoinView},
     { path: '/listPurchaseCompleted', component: ListPurchaseCompleted },

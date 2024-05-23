@@ -238,7 +238,7 @@ const accList = async () => {
 };
 </script>
 
-<style>
+<style scoped>
         .h1div{
             text-align: center;
             font-size: 50px;
