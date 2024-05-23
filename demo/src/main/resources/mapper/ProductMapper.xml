@@ -6,6 +6,10 @@ INSERT INTO product (product_code, product_name, app_quantity, category_value, a
 (#{code},#{name},#{quantity},#{catavalue},#{accountvalue})
 </insert>
 
+<insert id="insertinventory" parameterType="Map">
+	INSERT INTO inventory (product_code, current_quantity) VALUES (#{code},0)
+</insert>
+
 <select id="productseachnamelist" parameterType="Map">
 select 
 product_code code,

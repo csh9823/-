@@ -13,4 +13,5 @@ public interface ProductMapper {
 	public List<HashMap<String, Object>> productseachacvaluelist(Map<String, Object> productData);
 	public void productdelete(HashMap<String, Object> productData);
 	public void productupdate(HashMap<String, Object> productData);
+	public void insertinventory(Map<String, Object> productData);
 }

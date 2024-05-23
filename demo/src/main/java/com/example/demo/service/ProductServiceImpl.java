@@ -16,7 +16,9 @@ public class ProductServiceImpl implements ProductService {
 	private ProductMapper mapper;
 	
 	public void productadd(Map<String, Object> productData) {
+		System.out.println("등록완료");
 		mapper.productadd(productData);
+		mapper.insertinventory(productData);
 	}
 	
 	public List<HashMap<String, Object>> productseachlist(Map<String, Object> productData){

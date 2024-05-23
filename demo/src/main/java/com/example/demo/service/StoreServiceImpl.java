@@ -33,7 +33,6 @@ public class StoreServiceImpl implements StoreService {
     	    	int countst = mapper.stocountdate(account);
     	    	int noadd = (Integer) account.get("BOXCOUNT");
     	    	int smd = countst - noadd ;
-
     	    	account.put("updatecount", smd);
         	    System.out.println(account.get("BOXCOUNT"));
         	    System.out.println(account.get("datees"));
