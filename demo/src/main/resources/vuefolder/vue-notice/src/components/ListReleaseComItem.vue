@@ -17,13 +17,13 @@
                 <input type="date" v-model="startDate" placeholder="시작 날짜">
                 ~ 
                 <input type="date" v-model="endDate" placeholder="종료 날짜" :max="maxEndDate">
+                <div class="sortBtn">
+                    <button @click="toggleSortOrder">
+                        {{ sortOrder === 'asc' ? '날짜 내림차순 정렬' : '날짜 오름차순 정렬' }}
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="sortBtn">
-        <!-- <button @click="toggleSortOrder">
-            {{ sortOrder === 'asc' ? '날짜 내림차순 정렬' : '날짜 오름차순 정렬' }}
-        </button> -->
-    </div>
     <table>
         <thead>
             <tr>
@@ -67,7 +67,10 @@ import Dropbox from './ui/dropbox.vue';
 
 const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}.${month}.${day}`;
 };
 
 const props = defineProps({
@@ -105,13 +108,22 @@ function getTodayDate() {
         return `${year}-${month}-${day}`;
     }
 
-    // 7일 전의 날짜를 구하기 위한 함수
+    // // 7일 전의 날짜를 구하기 위한 함수
+    // function getStartDate() {
+    //     const today = new Date();
+    //     today.setDate(today.getDate() - 7);
+    //     const year = today.getFullYear();
+    //     const month = String(today.getMonth() + 1).padStart(2, '0');
+    //     const day = String(today.getDate()).padStart(2, '0');
+    //     return `${year}-${month}-${day}`;
+    // }
+
+    // 해당 월의 1일을 구하기 위한 함수
     function getStartDate() {
         const today = new Date();
-        today.setDate(today.getDate() - 7);
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
+        const day = '01';
         return `${year}-${month}-${day}`;
     }
 
@@ -158,6 +170,20 @@ function getTodayDate() {
         }
         releaseList.value = newList;
     }
+
+
+    // 오름차순 내림차순
+    let sortOrder = ref('asc');
+    
+
+    const toggleSortOrder = () => {
+        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+        if (sortOrder.value === 'asc') {
+            releaseList.value.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
+        } else {
+            releaseList.value.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+        }
+    };
 
     watch([selectedCategory, startDate, endDate], () => {
         filteredList();

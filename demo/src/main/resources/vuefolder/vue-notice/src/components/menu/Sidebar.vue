@@ -1,16 +1,17 @@
 <template>
     <div class="sidebar">
         <router-link to="/" exact-active-class="active-link">홈</router-link>
-        <router-link to="/listPurchaseCompleted" exact-active-class="active-link">구매완료 리스트</router-link>
-        <router-link to="/listStockCom" exact-active-class="active-link">입고완료 리스트</router-link>
-        <router-link to="/calculate" exact-active-class="active-link">정산</router-link>
-        <router-link to="/listRelease" exact-active-class="active-link">출고 리스트</router-link>
+        <router-link to="/Productmaster">제품마스터 등록</router-link>
         <router-link to="/division">분류등록</router-link> 
-    <router-link to="/department">부서등록</router-link> 
-    <router-link to="/account">거래처 등록</router-link>
-    <router-link to="/box">단위코드 등록</router-link>
-    <router-link to="/Productmaster">제품마스터 등록</router-link>
-    <router-link to="/Purchase">구매</router-link>
+        <router-link to="/department">부서등록</router-link> 
+        <router-link to="/account">거래처 등록</router-link>
+        <router-link to="/box">단위코드 등록</router-link>
+        <router-link to="/Purchase">구매</router-link>
+        <router-link to="/listPurchaseCompleted" exact-active-class="active-link">구매완료 리스트</router-link>
+        <router-link to="/store" exact-active-class="active-link">입고</router-link>
+        <router-link to="/listStockCom" exact-active-class="active-link">입고완료 리스트</router-link>
+        <router-link to="/listRelease" exact-active-class="active-link">출고 리스트</router-link>
+        <router-link to="/calculate" exact-active-class="active-link">정산</router-link>
     </div>
 </template>
 

@@ -66,7 +66,6 @@ import Dropbox from './ui/dropbox.vue';
 
     const processedData = ref(props.datas);
 
-    console.log("datas: " , processedData);
 
     const storeList = [
        ...processedData.value
@@ -80,7 +79,6 @@ import Dropbox from './ui/dropbox.vue';
 
     const selectedSearchOption = ref('product_name');
 
-    console.log(selectedCategory);
 
     const searchOptions = computed(() => [
         { label: '제품명', value: 'product_name'},
@@ -96,13 +94,22 @@ import Dropbox from './ui/dropbox.vue';
         return `${year}-${month}-${day}`;
     }
 
-    // 7일 전의 날짜를 구하기 위한 함수
+    // // 7일 전의 날짜를 구하기 위한 함수
+    // function getStartDate() {
+    //     const today = new Date();
+    //     today.setDate(today.getDate() - 7);
+    //     const year = today.getFullYear();
+    //     const month = String(today.getMonth() + 1).padStart(2, '0');
+    //     const day = String(today.getDate()).padStart(2, '0');
+    //     return `${year}-${month}-${day}`;
+    // }
+
+    // 해당 월의 1일을 구하기 위한 함수
     function getStartDate() {
         const today = new Date();
-        today.setDate(today.getDate() - 7);
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
+        const day = '01';
         return `${year}-${month}-${day}`;
     }
 
@@ -123,7 +130,6 @@ import Dropbox from './ui/dropbox.vue';
         if (selectedCategory.value !== 'all') {
             console.log(selectedCategory.value)
             newList = newList.filter(item => item.category_value === selectedCategory.value);
-            console.log(newList)
         }
         if (startDate.value.trim() !== '' && endDate.value.trim() !== '') {
             const start = new Date(startDate.value);
@@ -166,16 +172,14 @@ import Dropbox from './ui/dropbox.vue';
     });
 
 
-    const button = () => {
-        // console.log(datas)
-        console.log(processedData.value)
-    }
-    
 
     // 날짜 형식 변경    
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}.${month}.${day}`;
     };
 
     // 오름차순 내림차순

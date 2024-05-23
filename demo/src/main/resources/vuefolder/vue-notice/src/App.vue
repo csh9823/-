@@ -21,6 +21,7 @@
 
 <script setup>
 import Sidebar from './components/menu/Sidebar.vue';
+// import './style.css'
   
 
 
@@ -29,6 +30,10 @@ import Sidebar from './components/menu/Sidebar.vue';
 
 #apps {
     display: flex;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
 }
 
 /* view_container 스타일 */

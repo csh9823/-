@@ -14,6 +14,7 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import ListPurComItem from '../components/ListPurComItem.vue';
 

@@ -108,7 +108,6 @@ import './css/List.css';
 
     const calculateList = ref(calculate);
 
-    console.log(calculateList);
 
     const totalProfit = computed(() => {
         if (calculateList.value && Array.isArray(calculateList.value)) {
@@ -130,7 +129,6 @@ import './css/List.css';
         
         if (keyword === '') {
             // 검색어가 빈 문자열인 경우, 전체 데이터를 다시 표시
-            console.log(calculate)
             calculateList.value = calculate;
             toggleKey = 0;
             return;
@@ -148,12 +146,10 @@ import './css/List.css';
             } else if (payload.option === 'department_value') {
                 newList = newList.filter(item => item.department_value.toLowerCase().includes(keyword));
                 toggleKey = 2;
-                console.log(toggleKey)
             }
         } else {
             console.log('hi')
         }
-        console.log('newList : ' , newList)
         calculateList.value = newList;
     };
 
@@ -161,10 +157,17 @@ import './css/List.css';
 
     
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}.${month}.${day}`;
+    };
 
     const startDate = ref('');
     const endDate = ref('');
-
+    
     // 날짜
     // 오늘의 날짜를 구하기 위한 함수
     function getTodayDate() {
@@ -175,20 +178,25 @@ import './css/List.css';
         return `${year}-${month}-${day}`;
     }
 
-    // 7일 전의 날짜를 구하기 위한 함수
+    // // 7일 전의 날짜를 구하기 위한 함수
+    // function getStartDate() {
+    //     const today = new Date();
+    //     today.setDate(today.getDate() - 19);
+    //     const year = today.getFullYear();
+    //     const month = String(today.getMonth() + 1).padStart(2, '0');
+    //     const day = String(today.getDate()).padStart(2, '0');
+    //     return `${year}-${month}-${day}`;
+    // }
+
+    // 해당 월의 1일을 구하기 위한 함수
     function getStartDate() {
         const today = new Date();
-        today.setDate(today.getDate() - 19);
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
+        const day = '01';
         return `${year}-${month}-${day}`;
     }
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
-    };
 
     // 기본값 설정
     startDate.value = getStartDate();
