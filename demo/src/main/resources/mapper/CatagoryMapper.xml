@@ -3,51 +3,29 @@
  
  <select id="CatagoryList" resultType="HashMap">
 	select 
-    	code,
-    	value,
-    	value revalue
-	from category_history
-	where SITUATION = 1
+    	category_code code,
+    	category_name value,
+    	category_name revalue
+	from category
+	where category_state = 1
  </select>
  
-<delete id="catagorydelete" parameterType="java.util.Map">
-        DELETE FROM category WHERE category_code = #{CODE}
-</delete>
- 
- <update id="catagoryupdatecode" parameterType="Map">
-		UPDATE category_history
-			SET SITUATION = 0
-		WHERE code = #{CODE}
- </update>
- 
- <update id="catagoryupdatecomCdvalue" parameterType="Map">
-		UPDATE comCd
-			SET value = #{VALUE}
-		WHERE value = #{revalue}
- </update>
- 
-<update id="catagoryupdatevalue" parameterType="Map">
-		UPDATE category_history
-			SET value = #{VALUE}
-		WHERE value = #{revalue}
- </update>
- 
-<insert id="insertCategory" parameterType="map" useGeneratedKeys="false">
-    <selectKey keyProperty="categoryCode" resultType="int" order="BEFORE">
-        SELECT category_sequence.NEXTVAL FROM dual
-    </selectKey>
-    INSERT INTO category (category_code)
-    VALUES (#{categoryCode})
+
+<insert id="insertCategory" parameterType="map">
+    INSERT INTO category (category_code, category_name,category_state)
+    VALUES (#{catacode},#{value},1)
 </insert>
 
-<insert id="insertCategoryDetail" parameterType="map">
-    INSERT INTO comCd (code, value,div)
-    VALUES (#{categoryCode}, #{value},#{div})
-</insert>
+<update id="deleteCate" parameterType="HashMap">
+	UPDATE category
+    SET category_state = 0
+WHERE category_code = #{CODE}
+</update>
 
- <insert id="insertCategoryhistory" parameterType="map">
-    INSERT INTO category_history (code, value,situation)
-    VALUES (#{categoryCode}, #{value},#{situation})
-</insert>
- 
+<update id="editCate" parameterType="HashMap">
+	UPDATE category
+    SET category_name = #{VALUE}
+WHERE category_code = #{CODE}
+</update>
+
 </mapper>

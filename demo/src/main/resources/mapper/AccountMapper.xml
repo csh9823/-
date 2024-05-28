@@ -2,12 +2,14 @@
 <mapper namespace="com.example.demo.dao.AccountMapper">
  
  <select id="AccountList" resultType="HashMap">
-	select 
-    	code,
-    	value,
-    	value revalue
-	from account_history
-	where SITUATION = 1
+    select
+        account_code as code,
+        account_hp as hp,
+        account_address as address,
+        account_name as value,
+        account_fax as fax
+    from account
+    WHERE account_state = 1
  </select>
  
 <delete id="Accountdelete" parameterType="java.util.Map">
@@ -26,28 +28,25 @@
 		WHERE value = #{revalue}
  </update>
  
-<update id="Accountupdatevalue" parameterType="Map">
-		UPDATE account_history
-			SET value = #{VALUE}
-		WHERE value = #{revalue}
+<update id="updateAccount" parameterType="HashMap">
+    UPDATE account
+    SET account_hp = #{HP},
+        account_name = #{VALUE},
+        account_fax = #{FAX},
+        account_address = #{ADDRESS}
+    WHERE account_code = #{CODE}
  </update>
  
-<insert id="insertAccount" parameterType="map" useGeneratedKeys="false">
-    <selectKey keyProperty="accountCode" resultType="int" order="BEFORE">
-        SELECT account_sequence.NEXTVAL FROM dual
-    </selectKey>
-    INSERT INTO account (account_code)
-    VALUES (#{accountCode})
-</insert>
-
-<insert id="AccountCategoryDetail" parameterType="map">
-    INSERT INTO comCd (code, value,div)
-    VALUES (#{accountCode}, #{value},#{div})
-</insert>
-
- <insert id="Accounthistory" parameterType="map">
-    INSERT INTO account_history (code, value,situation)
-    VALUES (#{accountCode}, #{value},#{situation})
-</insert>
+ <update id="deleteAccount" parameterType="HashMap">
+    UPDATE account
+    SET account_state = 0
+    WHERE account_code = #{CODE}
+ </update>
  
+<insert id="insertAccount" parameterType="map">
+INSERT INTO account (account_code, account_hp, account_address, account_name, account_state, account_fax)
+VALUES (#{accode}, #{achp}, #{acaddress}, #{acname}, 1, #{acfax})
+</insert>
+
+
 </mapper>

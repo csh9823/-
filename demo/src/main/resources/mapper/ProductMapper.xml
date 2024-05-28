@@ -2,8 +2,8 @@
 <mapper namespace="com.example.demo.dao.ProductMapper">
  
 <insert id="productadd"  parameterType="map">
-INSERT INTO product (product_code, product_name, app_quantity, category_value, account_value) VALUES 
-(#{code},#{name},#{quantity},#{catavalue},#{accountvalue})
+INSERT INTO product (product_code, product_name, app_quantity, category_code, account_code)
+VALUES (#{code},#{name}, #{quantity},#{catavalue}, #{accountvalue})
 </insert>
 
 <insert id="insertinventory" parameterType="Map">
@@ -12,24 +12,30 @@ INSERT INTO product (product_code, product_name, app_quantity, category_value, a
 
 <select id="productseachnamelist" parameterType="Map">
 select 
-product_code code,
-product_name name,
-app_quantity quantity,
-category_value cavalue,
-account_value acvalue
-from product
-where product_name= #{searchinto} and category_value = #{catavalue}
+p.product_code code,
+p.product_name name,
+p.app_quantity quantity,
+p.category_code cavalue,
+p.account_code acvalue,
+a.account_name acname
+from product p , account a
+where product_name= #{searchinto} 
+and category_code = #{catavalue}
+and p.account_code = a.account_code
 </select>
 
 <select id="productseachacvaluelist" parameterType="Map">
 select 
-product_code code,
-product_name name,
-app_quantity quantity,
-category_value cavalue,
-account_value acvalue
-from product
-where account_value= #{searchinto} and category_value = #{catavalue}
+p.product_code code,
+p.product_name name,
+p.app_quantity quantity,
+p.category_code cavalue,
+p.account_code acvalue,
+a.account_name acname
+from product p , account a
+where account_name= #{searchinto} 
+and category_code = #{catavalue}
+and p.account_code = a.account_code
 </select>
 
 <update id="productupdate" parameterType="Map">

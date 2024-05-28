@@ -37,6 +37,9 @@ public class BoxServiceImpl implements BoxService {
     	    	mapper.Boxdelete(box);
     	    	System.out.println("삭제완료");
     	    }else if(box.get("edit") != null) {
+                int boxCount = (Integer) box.get("BOXCOUNT");
+                System.out.println("BOXCOUNT as int: " + boxCount);
+                box.put("intboxcount", boxCount);
     	    	mapper.Boxupdate(box);
         	    System.out.println("수정완료");
     	    }

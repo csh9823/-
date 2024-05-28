@@ -53,7 +53,7 @@
                 <div v-if="!edit[index]">{{boxList.BOXNAME}}</div>
                 <input v-else type="text" v-model="boxList.BOXNAME" class="reinput">
                 <div v-if="!edit[index]">{{boxList.BOXCOUNT}}</div>
-                <input v-else type="text" v-model="boxList.BOXCOUNT" class="reinput">
+                <input v-else type="number" v-model="boxList.BOXCOUNT" class="reinput">
                 <div v-if="!edit[index]" ><input type="checkbox" :value="boxList.BOXCODE" v-model="deletet[index]"></div>
                 <div v-else></div>
                 <div><input type="checkbox" :value="boxList.BOXCODE" v-model="edit[index]"></div>

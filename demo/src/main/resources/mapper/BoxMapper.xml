@@ -3,26 +3,26 @@
  
  <select id="boxList" resultType="HashMap">
 	select 
-	    boxcode,
-	    boxname,
-	    boxcount,
-	    boxcode reboxcode
+	    box_code as BOXCODE,
+	    box_name as BOXNAME,
+	    box_count as BOXCOUNT,
+	    box_code reboxcode
 	from box_quantity
  </select>
  
  <insert id="boxadd" parameterType="Map">
-INSERT INTO box_quantity (boxcode, boxname, boxcount) VALUES (#{boxcode}, #{boxname}, #{boxcount})	
+INSERT INTO box_quantity (box_code, box_name, box_count) VALUES (#{boxcode}, #{boxname}, #{boxcount})	
  </insert>
  
 <delete id="Boxdelete" parameterType="java.util.Map">
-        DELETE FROM box_quantity WHERE boxcode = #{BOXCODE}
+        DELETE FROM box_quantity WHERE box_code = #{BOXCODE}
 </delete>
 
 <update id="Boxupdate" parameterType="java.util.Map">
 		UPDATE box_quantity
-			SET boxcode = #{BOXCODE},
-				boxname = #{BOXNAME},
-				boxcount = #{BOXCOUNT}
-		WHERE boxcode = #{REBOXCODE}
+			SET box_code = #{BOXCODE},
+				box_name = #{BOXNAME},
+				box_count = #{intboxcount}
+		WHERE box_code = #{REBOXCODE}
 </update>
 </mapper>

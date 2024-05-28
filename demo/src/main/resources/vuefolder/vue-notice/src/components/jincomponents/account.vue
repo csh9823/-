@@ -1,38 +1,51 @@
 <template>
     <div class="h1div"><strong>거래처 등록</strong></div>
-    <div class="insertform">
-
-        <div class="name">
-            <span>부서 명</span> 
+    <form @submit.prevent="submitForm">
+    <div class="namelist">
+        <div class="listdate">
+            <div>거래처코드</div>
+            <div>주소</div>
+            <div>이름</div>
+            <div>연락처</div>
+            <div>팩스번호</div>
         </div>
-      <form @submit.prevent="submitForm">
-            <div class="nameinsert">
-                <input type="text" class="nameinput" v-model="accountname" name="">
-            </div>
-
-            <div class="insertbtn">
-                <button type="submit" class="btnsubmit">등록</button>
-            </div>
-      </form>
+        <div class="listdate">
+            <div><input type="text" class="nameinput" v-model="accode" name=""></div>
+            <div><input type="text" class="nameinput" v-model="acaddress" name=""></div>
+            <div><input type="text" class="nameinput" v-model="achp" name=""></div>
+            <div><input type="text" class="nameinput" v-model="acname" name=""></div>
+            <div><input type="text" class="nameinput" v-model="acfax" name=""></div>
+        </div>
+        <button type="submit" class="btnsubmit">등록</button>
     </div>
+  </form>
     <form @submit.prevent="submitForm2">
     <div class="namelist">
         <div  class="listh1"><span><strong>거래처 리스트</strong></span></div>
 
         <div class="listdate">
-            <div>거래처</div>
-            <div>삭제하기</div>
-            <div>수정하기</div>
+            <div>거래처코드</div>
+            <div>주소</div>
+            <div>연락처</div>
+            <div>이름</div>
+            <div>팩스번호</div>
+            <div>삭제</div>
+            <div>수정</div>
         </div>
 
         <div class="listdate" v-for="(accountList, index) in accountList" :key="index">
-            <div v-if="!edit[index]">{{ accountList.VALUE }}</div>
-            <input v-else type="text" v-model="accountList.VALUE" class="reinput">
+            <div>{{accountList.CODE }}</div>
+            <div v-if="!edit[index]">{{ accountList.ADDRESS }}</div>
+            <div v-else><input type="text" v-model="accountList.ADDRESS" class="reinput"></div>
+            <div v-if="!edit[index]">{{ accountList.HP }}</div>
+            <div v-else><input type="text" v-model="accountList.HP" class="reinput"></div>
+            <div v-if="!edit[index]">{{accountList.VALUE }}</div>
+            <div v-else><input type="text" v-model="accountList.VALUE" class="reinput"></div>
+            <div v-if="!edit[index]">{{accountList.FAX }}</div>
+            <div v-else><input type="text" v-model="accountList.FAX" class="reinput"></div>
             <div v-if="!edit[index]" ><input type="checkbox" :value="accountList.VALUE" v-model="deletet[index]"></div>
             <div v-else></div>
             <div><input type="checkbox" :value="accountList.VALUE" v-model="edit[index]"></div>
-            <div hidden>{{ accountList.VALUE }}</div>
-            <div hidden>{{ accountList.CODE }}</div>
         </div>
 
     </div>
@@ -49,20 +62,33 @@ import { ref,onMounted } from 'vue';
 import axios from 'axios';
 
 // 변수 선언
-const accountname = ref([]);
+const accode = ref('');
+const  acaddress  = ref('');
+const  achp  = ref('');
+const  acname  = ref('');
+const  acfax  = ref('');
 const accountList = ref([]);
 const deletet = ref([]);
 const edit = ref([]);
 
 const submitForm = async () => {
   try {
-    const response = await axios.post('/api/accountadd', null ,{
-      params: {
-        accountname: accountname.value
-      }
-    });
+
+    const dataToSend = {
+        accode: accode.value,
+        acaddress: acaddress.value,
+        achp: achp.value,
+        acname: acname.value,
+        acfax: acfax.value
+    };
+
+    const response = await axios.post('/api/accountadd', dataToSend);
     // 요청이 성공하면 입력값을 비웁니다.
-    accountname.value = '';
+    accode.value = '';
+    acaddress.value = '';
+    achp.value = '';
+    acname.value = '';
+    acfax.value = '';
     await accList();
   } catch (error) {
     console.error(error);
@@ -111,7 +137,9 @@ const submitForm2 = async () => {
     const dataToSend = checkedIndexes.map(index => ({
       CODE: accountList.value[index].CODE,
       VALUE: accountList.value[index].VALUE,
-      revalue: accountList.value[index].REVALUE,
+      ADDRESS: accountList.value[index].ADDRESS,
+      FAX: accountList.value[index].FAX,
+      HP: accountList.value[index].HP,      
       deletet: deletet.value[index] ? accountList.value[index].VALUE : null, // deletet 배열이 true일 경우 해당 인덱스의 VALUE 사용
       edit: edit.value[index] ? accountList.value[index].VALUE : null // edit 배열이 true일 경우 해당 인덱스의 VALUE 사용
     }));
@@ -152,9 +180,7 @@ margin-top: 30px;
     text-align: center;
 }
 .nameinput {
-border: none;
-outline: none;
-/* 기타 원하는 스타일 설정 */
+  width: 90%;
 }
 .insertbtn{
 margin-left: 10px;
@@ -164,21 +190,22 @@ height: 30px;
 text-align: center;
 }
 .reinput{
-        width: 200px;
+        width: 90%;
     }
 .namelist{
 margin: 0 auto; /* 가운데 정렬을 위해 margin 속성 사용 */
 justify-content: center;
-width: 500px;
+width: 800px;
 text-align: center;
 margin-top: 20px;
 }
 .listdate{
+width: 800px;
 display: flex;
 justify-content: center;
 }
 .listdate div{
-width: 200px;
+  width: 300px;
 border: solid 1px black;
 }
 .listh1{

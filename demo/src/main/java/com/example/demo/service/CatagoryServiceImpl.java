@@ -27,36 +27,25 @@ public class CatagoryServiceImpl implements CatagoryService {
     	for (int i = 0; i < categoryData.size(); i++) {
     	    HashMap<String, Object> category = categoryData.get(i);
     	    if(category.get("deletet") != null) {
-    			mapper.catagorydelete(category);
-    			mapper.catagoryupdatecode(category);
-    	    	System.out.println("삭제완료");
         	    System.out.println("code: " + category.get("CODE"));
+    	    	System.out.println("삭제완료");
+    	    	mapper.deleteCate(category);
     	    }else if(category.get("edit") != null) {
-    	    	mapper.catagoryupdatevalue(category);
-    	    	mapper.catagoryupdatecomCdvalue(category);
         	    System.out.println("VALUE: " + category.get("VALUE"));
         	    System.out.println("revalue: " + category.get("revalue"));
         	    System.out.println("code: " + category.get("CODE"));
         	    System.out.println("수정완료");
+        	    mapper.editCate(category);
     	    }
     	}
 	}
 	
 	// 카테고리 생성
-	public void catagoryadd(String cataname) {
-		 // 첫 번째 인서트 수행 및 시퀀스 값 생성
+	public void catagoryadd(String cataname,String catacode) {
         Map<String, Object> categoryParams = new HashMap<>();
+        categoryParams.put("value", cataname);
+        categoryParams.put("catacode", catacode);
+        System.out.println(categoryParams.get("value"));
         mapper.insertCategory(categoryParams);       
-        // 삽입된 시퀀스 값을 가져옴
-        int categoryCode = (int) categoryParams.get("categoryCode");       
-        // 두 번째 인서트 수행
-        Map<String, Object> detailParams = new HashMap<>();
-        detailParams.put("categoryCode", categoryCode);
-        detailParams.put("value", cataname);
-        detailParams.put("div", "category");
-        detailParams.put("situation", 1);
-        mapper.insertCategoryDetail(detailParams);
-        // 세 번째 인서트 수행
-        mapper.insertCategoryhistory(detailParams);
 	}
 }

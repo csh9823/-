@@ -1,38 +1,47 @@
 <template>
     <div class="h1div"><strong>부서 등록</strong></div>
-    <div class="insertform">
-
-        <div class="name">
-            <span>부서 명</span> 
+  <form @submit.prevent="submitForm">
+    <div class="namelist">
+        <div class="listdate">
+            <div>부서코드</div>
+            <div>연락처</div>
+            <div>이름</div>
+            <div>팩스번호</div>
         </div>
-<form @submit.prevent="submitForm">
-        <div class="nameinsert">
-            <input type="text" class="nameinput" v-model="departname" name="">
+        <div class="listdate">
+            <div><input type="text" class="nameinput" v-model="departcode" name=""></div>
+            <div><input type="text" class="nameinput" v-model="departhp" name=""></div>
+            <div><input type="text" class="nameinput" v-model="departname" name=""></div>
+            <div><input type="text" class="nameinput" v-model="departfax" name=""></div>
         </div>
-
-        <div class="insertbtn">
-            <button type="submit" class="btnsubmit">등록</button>
-        </div>
-</form>
+        <button type="submit" class="btnsubmit">등록</button>
     </div>
+  </form>
+
     <form @submit.prevent="submitForm2">
     <div class="namelist">
         <div  class="listh1"><span><strong>부서 리스트</strong></span></div>
 
         <div class="listdate">
-            <div>부서</div>
-            <div>삭제하기</div>
-            <div>수정하기</div>
+            <div>부서코드</div>
+            <div>연락처</div>
+            <div>이름</div>
+            <div>팩스번호</div>
+            <div>삭제</div>
+            <div>수정</div>
         </div>
 
         <div class="listdate" v-for="(departmentList, index) in departmentList" :key="index">
-            <div v-if="!edit[index]">{{ departmentList.VALUE }}</div>
-            <input v-else type="text" v-model="departmentList.VALUE" class="reinput">
+            <div>{{departmentList.CODE }}</div>
+            <div v-if="!edit[index]">{{ departmentList.HP }}</div>
+            <div v-else><input type="text" v-model="departmentList.HP" class="reinput"></div>
+            <div v-if="!edit[index]">{{departmentList.VALUE }}</div>
+            <div v-else><input type="text" v-model="departmentList.VALUE" class="reinput"></div>
+            <div v-if="!edit[index]">{{departmentList.FAX }}</div>
+            <div v-else><input type="text" v-model="departmentList.FAX" class="reinput"></div>
             <div v-if="!edit[index]" ><input type="checkbox" :value="departmentList.VALUE" v-model="deletet[index]"></div>
             <div v-else></div>
             <div><input type="checkbox" :value="departmentList.VALUE" v-model="edit[index]"></div>
-            <div hidden>{{ departmentList.VALUE }}</div>
-            <div hidden>{{ departmentList.CODE }}</div>
         </div>
 
     </div>
@@ -49,20 +58,29 @@ import { ref,onMounted } from 'vue';
 import axios from 'axios';
 
 // 변수 선언
-const departname = ref([]);
+const departname = ref('');
+const departcode = ref('');
+const departhp = ref('');
+const departfax = ref('');
 const departmentList = ref([]);
 const deletet = ref([]);
 const edit = ref([]);
 
 const submitForm = async () => {
   try {
-    const response = await axios.post('/api/department', null ,{
-      params: {
-        departname: departname.value
-      }
-    });
+    const dataToSend = {
+        departname: departname.value,
+        departcode: departcode.value,
+        departhp: departhp.value,
+        departfax: departfax.value
+    };
+
+    const response = await axios.post('/api/department', dataToSend);
     // 요청이 성공하면 입력값을 비웁니다.
     departname.value = '';
+    departcode.value = '';
+    departfax.value = '';
+    departhp.value = '';
     await departList();
   } catch (error) {
     console.error(error);
@@ -111,9 +129,10 @@ const submitForm2 = async () => {
     const dataToSend = checkedIndexes.map(index => ({
       CODE: departmentList.value[index].CODE,
       VALUE: departmentList.value[index].VALUE,
-      revalue: departmentList.value[index].REVALUE,
-      deletet: deletet.value[index] ? departmentList.value[index].VALUE : null, // deletet 배열이 true일 경우 해당 인덱스의 VALUE 사용
-      edit: edit.value[index] ? departmentList.value[index].VALUE : null // edit 배열이 true일 경우 해당 인덱스의 VALUE 사용
+      FAX: departmentList.value[index].FAX,
+      HP: departmentList.value[index].HP,
+      deletet: deletet.value[index] ? departmentList.value[index].CODE : null, // deletet 배열이 true일 경우 해당 인덱스의 VALUE 사용
+      edit: edit.value[index] ? departmentList.value[index].CODE : null // edit 배열이 true일 경우 해당 인덱스의 VALUE 사용
     }));
 
     const response = await axios.post('/api/departmentedit', dataToSend);
@@ -164,21 +183,22 @@ height: 30px;
 text-align: center;
 }
 .reinput{
-        width: 200px;
+        width: 90%;
     }
 .namelist{
 margin: 0 auto; /* 가운데 정렬을 위해 margin 속성 사용 */
 justify-content: center;
-width: 500px;
+width: 800px;
 text-align: center;
 margin-top: 20px;
 }
 .listdate{
+width: 800px;
 display: flex;
 justify-content: center;
 }
 .listdate div{
-width: 200px;
+width: 300px;
 border: solid 1px black;
 }
 .listh1{

@@ -42,12 +42,13 @@ public class VueController {
 	
 	@Autowired
 	StoreService stoser;
+	
 	//대분류 등록
 	@PostMapping("/api/catagoryadd")
-	public void catagoreadd(@RequestParam("cataname") String cataname) {
-		cataser.catagoryadd(cataname);
-		System.out.println(cataname);
+	public void catagoreadd(@RequestParam("cataname") String cataname,@RequestParam("catacode") String catacode) {
+		cataser.catagoryadd(cataname,catacode);
 	}
+	
 	// 대분류 리스트 가져오기
 	@GetMapping("/api/catagoryList")
 	public List<HashMap<String, Object>> catagory() {
@@ -62,9 +63,9 @@ public class VueController {
   
 	//부서 등록
 	@PostMapping("/api/department")
-	public void departmentadd(@RequestParam("departname") String departname) {
-		Deparser.Departmentadd(departname);
-		System.out.println(departname);
+	public void departmentadd(@RequestBody Map<String, Object> department) {
+
+		Deparser.Departmentadd(department);
 	}    
     
 	// 부서 리스트 가져오기
@@ -83,7 +84,6 @@ public class VueController {
     // 거래처 리스트
 	@GetMapping("/api/accountList")
 	public List<HashMap<String, Object>> accountList() {
-		
 		return Accser.AccountList();
 	}
 	
@@ -95,15 +95,13 @@ public class VueController {
     
 	//거래처 등록
 	@PostMapping("/api/accountadd")
-	public void accountadd(@RequestParam("accountname") String accountname) {
-		Accser.Accountadd(accountname);
-		System.out.println(accountname);
+	public void accountadd(@RequestBody Map<String, Object> acdate) {
+		Accser.Accountadd(acdate);
 	}
 	
 	// 박스 코드 리스트
 	@GetMapping("/api/boxList")
-	public List<HashMap<String, Object>> boxList() {
-		
+	public List<HashMap<String, Object>> boxList() {	
 		return boxser.BoxList();
 	}
 	
@@ -130,18 +128,22 @@ public class VueController {
     
     // 제품마스터 리스트
     @PostMapping("/api/searchlist")
-    public List<HashMap<String, Object>> searchlist(@RequestBody Map<String, Object> search) {      
-    	
+    public List<HashMap<String, Object>> searchlist(@RequestBody Map<String, Object> search) {          	
     	return proser.productseachlist(search);
     }
     
     // 제품마스터 수정삭제
     @PostMapping("/api/productedit")
 	public void productedit(@RequestBody List<HashMap<String, Object>> productData) {
-    	proser.productedit(productData);
+        // 리스트가 비어 있는지 확인
+        if (productData == null || productData.isEmpty()) {
+            System.out.println("없음");
+        }else {
+        	proser.productedit(productData);
+        }
 	}
     
-	// 박스 코드 리스트
+	// 구매 리스트
 	@GetMapping("/api/jinPurchaseList")
 	public List<HashMap<String, Object>> jinPurchaseList() {
 		
@@ -163,6 +165,7 @@ public class VueController {
 	// 입고 업데이트
 	@PostMapping("/api/stoupdate")
 	public void stoupdate(@RequestBody List<HashMap<String, Object>> stoData) {
+
 		stoser.stoupdate(stoData);
 	}
 }

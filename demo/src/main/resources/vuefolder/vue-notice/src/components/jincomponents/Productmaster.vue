@@ -4,11 +4,11 @@
     <div class="insertselectbox">
         구분: 
       <select class="divisionbox" v-model="selectedCategory">
-        <option v-for="(category, index) in categories" :key="index" :value="category.VALUE">{{ category.VALUE }}</option>
+        <option v-for="(category, index) in categories" :key="index" :value="category.CODE">{{ category.VALUE }}</option>
       </select>
 
         거래처: <select v-model="selectedaccount">
-                <option v-for="(accountList, index) in accountList" :key="index">{{ accountList.VALUE }}</option>
+                <option v-for="(accountList, index) in accountList" :key="index" :value="accountList.CODE" >{{ accountList.VALUE }}</option>
               </select>
     </div>
     
@@ -55,7 +55,7 @@
             <div class="listselectbox">
                 <div>
                     구분 <select class="divisionbox" v-model="selectedCategory">
-                        <option v-for="(category, index) in categories" :key="index" :value="category.VALUE">{{ category.VALUE }}</option>
+                        <option v-for="(category, index) in categories" :key="index" :value="category.CODE">{{ category.VALUE }}</option>
                     </select>
                 </div>
 
@@ -84,10 +84,11 @@
             <div v-if="!edit[index]">{{searchlist.QUANTITY}}</div>
             <div v-else><input type="number" v-model="searchlist.QUANTITY" class="reinput"></div>
             <div>{{ searchlist.NAME }}</div>
-            <div>{{ searchlist.ACVALUE }}</div>
+            <div>{{ searchlist.ACNAME }}</div>
             <div v-if="!edit[index]" ><input type="checkbox" :value="searchlist.CODE" v-model="deletet[index]"></div>
             <div v-else></div>
             <div><input type="checkbox" :value="searchlist.CODE" v-model="edit[index]"></div>
+            <div hidden >{{ searchlist.ACVALUE }}</div>
         </div>
         <div class="insertform2">
             <div class="insertbtn2">
@@ -165,6 +166,7 @@ const submitForm2 = async () => {
     console.log(selectedCategory.value);
     console.log(search.value)
     console.log(searchinto.value)
+    
     const dataToSend = {
         catavalue: selectedCategory.value,
         search: search.value,
@@ -211,7 +213,7 @@ const cataList = async () => {
     categories.value = response.data; // 응답 데이터를 categories에 저장
     // 데이터 로드 후 기본값 설정
     if (categories.value.length > 0) {
-      selectedCategory.value = categories.value[0].VALUE; // 첫 번째 항목으로 설정 (원하는 항목으로 변경 가능)
+      selectedCategory.value = categories.value[0].CODE; // 첫 번째 항목으로 설정 (원하는 항목으로 변경 가능)
     }
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -221,7 +223,6 @@ const cataList = async () => {
 onMounted(() => {
   cataList();
   accList();
-  submitForm2();
 });
 
 // 거래처 리스트 가져오기
@@ -231,7 +232,7 @@ const accList = async () => {
     accountList.value = response.data; // 응답 데이터를 accountList에 저장
     // 데이터 로드 후 기본값 설정
     if (accountList.value.length > 0) {
-      selectedaccount.value = accountList.value[0].VALUE; // 첫 번째 항목으로 설정 (원하는 항목으로 변경 가능)
+      selectedaccount.value = accountList.value[0].CODE; // 첫 번째 항목으로 설정 (원하는 항목으로 변경 가능)
     }
   } catch (error) {
     console.error('Error fetching categories:', error);
