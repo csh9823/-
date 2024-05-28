@@ -30,20 +30,20 @@
                     <th>단위</th>
                     <th>박스 개수</th>
                     <th>수량</th>
-                    <th>입고가</th>
+                    <th>구매 단가</th>
                     <th>구매 회사</th>
                     <th>구매일</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item, index) in filteredItemList" :key="index">
-                    <td>{{ item.category_value }}</td>
+                    <td>{{ item.category_name }}</td>
                     <td>{{ item.product_name }}</td>
-                    <td>{{ item.boxname }}<br/>{{ item.boxcount }} EA</td>
-                    <td>{{ item.purchase_count }}</td>
+                    <td>{{ item.box_name }}<br/>{{ item.box_count }} EA</td>
+                    <td>{{ item.purchase_box }}</td>
                     <td>{{ item.purchase_quantity}}</td>
                     <td>{{ item.store_price }}</td>
-                    <td>{{ item.account_value }}</td>
+                    <td>{{ item.account_name }}</td>
                     <td>{{ formatDate(item.purchase_date) }}</td>
                 </tr>
             </tbody>
@@ -63,26 +63,21 @@ import Dropbox from './ui/dropbox.vue';
         },
     })
 
-    const processedData = ref(props.datas);
 
-    console.log("datas: " , processedData);
-
-    const purchaseList = [
-        ...processedData.value
-    ]
+    const purchaseList = ref([...props.datas]);
 
         
     // const selectedCategory = ref(''); // 기본값은 전체보기
-    const selectedCategory = ref('all');
+    const selectedCategory = ref('0');
     const searchKeyword = ref('');
     const startDate = ref('');
     const endDate = ref('');
 
-    const selectedSearchOption = ref('product_name');
+    const selectedSearchOption = ref('product_code');
 
     const searchOptions = computed(() => [
-        { label: '제품명', value: 'product_name'},
-        { label: '거래처', value: 'account_value'}
+        { label: '제품명', value: 'product_code'},
+        { label: '거래처', value: 'account_code'}
     ])
 
     // 오늘의 날짜를 구하기 위한 함수
@@ -94,15 +89,6 @@ import Dropbox from './ui/dropbox.vue';
         return `${year}-${month}-${day}`;
     }
 
-    // // 7일 전의 날짜를 구하기 위한 함수
-    // function getStartDate() {
-    //     const today = new Date();
-    //     today.setDate(today.getDate() - 7);
-    //     const year = today.getFullYear();
-    //     const month = String(today.getMonth() + 1).padStart(2, '0');
-    //     const day = String(today.getDate()).padStart(2, '0');
-    //     return `${year}-${month}-${day}`;
-    // }
 
     // 해당 월의 1일을 구하기 위한 함수
     function getStartDate() {
@@ -120,24 +106,31 @@ import Dropbox from './ui/dropbox.vue';
     const maxEndDate = getTodayDate();
 
 
-    const filteredItemList = ref(purchaseList);
+    const filteredItemList = ref([...purchaseList.value]);
 
 
     // 날짜, 카테고리별 조회
     function filteredList() {
-        let newList = purchaseList;
+        let newList = [...purchaseList.value]; // 기존 값을 복사
 
-        if (selectedCategory.value !== 'all') {
-            newList = newList.filter(item => item.category_value === selectedCategory.value);
+        if (selectedCategory.value !== '0') {
+            console.log(typeof selectedCategory.value)
+            newList = newList.filter(item => item.category_code === selectedCategory.value.toString());
         }
+
         if (startDate.value.trim() !== '' && endDate.value.trim() !== '') {
             const start = new Date(startDate.value);
+            start.setHours(0, 0, 0, 0); // 시작일의 시간을 00:00:00으로 설정
+
             const end = new Date(endDate.value);
+            end.setHours(23, 59, 59, 999); // 하루의 끝으로 설정
+
             newList = newList.filter(item => {
                 const itemDate = new Date(item.purchase_date);
                 return itemDate >= start && itemDate <= end;
             });
         }
+
         filteredItemList.value = newList;
     }
 
@@ -145,13 +138,13 @@ import Dropbox from './ui/dropbox.vue';
     // 제품, 거래처 조건검색
     function search() {
         console.log(selectedSearchOption.value);
-        let newList = purchaseList;
+        let newList = [...purchaseList.value]; 
         if (searchKeyword.value.trim() !== '') {
             const keyword = searchKeyword.value.trim().toLowerCase();
-            if (selectedSearchOption.value == 'product_name') {
+            if (selectedSearchOption.value == 'product_code') {
                 newList = newList.filter(item => item.product_name.toLowerCase().includes(keyword));
             } else {
-                newList = newList.filter(item => item.account_value.toLowerCase().includes(keyword));
+                newList = newList.filter(item => item.account_name.toLowerCase().includes(keyword));
             }
         }
         filteredItemList.value = newList;

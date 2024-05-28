@@ -80,7 +80,9 @@ const submitForm = async () => {
     }));
     const response = await axios.post('/api/stoupdate', dataToSend); 
     await storelists();
+
     insert.value=[];
+
     }catch(error){
         console.log(error);
     }

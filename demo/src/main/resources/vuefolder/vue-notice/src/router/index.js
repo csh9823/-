@@ -6,6 +6,7 @@ import ListPurchaseCompleted from "../views/ListPurchaseCompleted.vue"
 import ListStockCom from "../views/ListStockCom.vue"
 import Calculate from "../views/Calculate.vue"
 import ListReleaseCom from "../views/ListReleaseCom.vue"
+import Release from "../views/Release.vue"
 
 import Division from "../components/jincomponents/division.vue"
 import Department from "../components/jincomponents/department.vue"
@@ -15,6 +16,8 @@ import Productmaster from "../components/jincomponents/Productmaster.vue"
 import Purchase from "../components/jincomponents/purchase.vue"
 import Store from "../components/jincomponents/store.vue"
 
+import PayMent from "../views/PayMentView.vue"
+
 const routes = [
     { path: '/', component: HomeView},
     { path: '/login', component: LoginView},
@@ -23,6 +26,8 @@ const routes = [
     { path: '/listStockCom', component: ListStockCom },
     { path: '/calculate', component: Calculate },
     { path: '/listRelease', component: ListReleaseCom },
+    { path: '/release', component: Release },
+    { path: '/test', component: PayMent},
     
     { path: '/division', component: Division},
     { path: '/department', component: Department},

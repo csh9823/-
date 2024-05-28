@@ -36,13 +36,14 @@
                     <th v-if="toggleKey === 2" rowspan="2">제품명</th>
                     <th v-if="toggleKey === 2" rowspan="2">거래처</th>
 
-                    <th colspan="2">재고</th>
+                    <th colspan="3">재고</th>
                     <th colspan="3">출고</th>
                     <th rowspan="2">수익</th>
                 </tr>
                 <tr>
                     <th>입고 가격</th>
                     <th>입고 수량</th>
+                    <th>입고 일자</th>
                     <th>출고 가격</th>
                     <th>출고 일자</th>
                     <th>출고 수량</th>
@@ -70,11 +71,12 @@
 
 
 
-                    <td>{{ item.store_price }}</td>
-                    <td>{{ item.store_box }}</td>
-                    <td>{{ item.release_price }}</td>
-                    <td>{{ formatDate(item.release_date) }}</td>
-                    <td>{{ item.release_box }}</td>
+                    <td>{{ item.store_price ? item.store_price : '' }}</td>
+                    <td>{{ item.store_box ? item.store_box : ''  }}</td>
+                    <td>{{ item.store_date ? formatDate(item.store_date) : '' }}</td>
+                    <td>{{ item.release_price  ? item.release_price : ''  }}</td>
+                    <td>{{ item.release_date ? formatDate(item.release_date) : '' }}</td>
+                    <td>{{ item.release_box ? item.release_box : '' }}</td>
                     <td>{{ (item.release_price - item.store_price) * item.release_box }}</td>
                 </tr>
                 <tr>
@@ -98,17 +100,17 @@ import './css/List.css';
 
     const props = defineProps({
         datas: {
-            type: Array,
-            required: true
+            type: Object,
         },
     })
 
-    const calculate = [
-        ...props.datas
-    ]
+    console.log(props.datas.data)
 
 
-    const calculateList = ref(calculate);
+    const calculate = ref(props.datas.data);
+    const calculateList = ref(props.datas.data);
+
+
 
 
     const totalProfit = computed(() => {
@@ -198,7 +200,7 @@ import './css/List.css';
 
     // 날짜, 카테고리별 조회
     function filteredList() {
-        let newList = calculate;
+        let newList = calculate.value;
 
         toggleKey = 0;
 
@@ -210,10 +212,10 @@ import './css/List.css';
             const end = new Date(endDate.value);
             end.setHours(23, 59, 59, 999); // 하루의 끝으로 설정
 
-            newList = newList.filter(item => {
-                const itemDate = new Date(item.release_date);
-                return itemDate >= start && itemDate <= end;
-            });
+            // newList = newList.filter(item => {
+            //     const itemDate = new Date(item.release_date);
+            //     return itemDate >= start && itemDate <= end;
+            // });
         }
         calculateList.value = newList;
     }

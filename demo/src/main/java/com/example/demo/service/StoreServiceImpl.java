@@ -8,12 +8,29 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.StoreMapper;
 
+
+import com.example.demo.vo.Store;
+import com.example.demo.vo.StoreHistory;
+
 @Service
 public class StoreServiceImpl implements StoreService{
 	
 	@Autowired
 	private StoreMapper mapper;
 
+	@Override
+	public List<StoreHistory> storeList() {
+		List<StoreHistory> list = mapper.storeList();
+		if (list.isEmpty()) {
+			return null;
+		}
+		
+		return list;
+		
+	}
+	
+
+	
 	@Override
 	public List<HashMap<String, Object>> storelist() {
 		return mapper.storelist();

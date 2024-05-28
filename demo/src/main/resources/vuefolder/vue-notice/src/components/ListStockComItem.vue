@@ -31,21 +31,21 @@
                     <th>제품명</th>
                     <th>단위</th>
                     <th>박스 개수</th>
-                    <th>수량</th>
-                    <th>입고가</th>
+                    <th>수량(예시데이터라 조금 다를 수 있음)</th>
+                    <th>입고 단가</th>
                     <th>구매 회사</th>
                     <th>입고일</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item, index) in filteredItemList" :key="index" >
-                    <td>{{ item.category_value }}</td>
+                    <td>{{ item.category_name }}</td>
                     <td>{{ item.product_name }}</td>
-                    <td>{{ item.boxname }}<br/>{{ item.boxcount }} EA</td>
+                    <td>{{ item.box_name }}<br/>{{ item.box_count }} EA</td>
+                    <td>{{ item.store_box }}</td>
                     <td>{{ item.store_quantity }}</td>
-                    <td>{{ item.boxcount * item.store_quantity }}</td>
                     <td>{{ item.store_price }}</td>
-                    <td>{{ item.account_value }}</td>
+                    <td>{{ item.account_name }}</td>
                     <td>{{ formatDate(item.store_date) }}</td>
                 </tr>
             </tbody>
@@ -64,25 +64,20 @@ import Dropbox from './ui/dropbox.vue';
         },
     })
 
-    const processedData = ref(props.datas);
-
-
-    const storeList = [
-       ...processedData.value
-    ]
+    const storeList = ref([...props.datas]);
 
         
-    const selectedCategory = ref('all');
+    // const selectedCategory = ref(''); // 기본값은 전체보기
+    const selectedCategory = ref('0');
     const searchKeyword = ref('');
     const startDate = ref('');
     const endDate = ref('');
 
-    const selectedSearchOption = ref('product_name');
-
+    const selectedSearchOption = ref('product_code');
 
     const searchOptions = computed(() => [
-        { label: '제품명', value: 'product_name'},
-        { label: '거래처', value: 'account_value'}
+        { label: '제품명', value: 'product_code'},
+        { label: '거래처', value: 'account_code'}
     ])
 
     // 오늘의 날짜를 구하기 위한 함수
@@ -94,15 +89,6 @@ import Dropbox from './ui/dropbox.vue';
         return `${year}-${month}-${day}`;
     }
 
-    // // 7일 전의 날짜를 구하기 위한 함수
-    // function getStartDate() {
-    //     const today = new Date();
-    //     today.setDate(today.getDate() - 7);
-    //     const year = today.getFullYear();
-    //     const month = String(today.getMonth() + 1).padStart(2, '0');
-    //     const day = String(today.getDate()).padStart(2, '0');
-    //     return `${year}-${month}-${day}`;
-    // }
 
     // 해당 월의 1일을 구하기 위한 함수
     function getStartDate() {
@@ -113,6 +99,10 @@ import Dropbox from './ui/dropbox.vue';
         return `${year}-${month}-${day}`;
     }
 
+
+
+        
+
     // 기본값 설정
     startDate.value = getStartDate();
     endDate.value = getTodayDate();
@@ -120,20 +110,24 @@ import Dropbox from './ui/dropbox.vue';
     const maxEndDate = getTodayDate();
 
 
-    const filteredItemList = ref(storeList);
+    const filteredItemList = ref([...storeList.value]);
 
 
     // 날짜, 카테고리별 조회
     function filteredList() {
-        let newList = storeList;
+        let newList = [...storeList.value];
 
-        if (selectedCategory.value !== 'all') {
+        if (selectedCategory.value !== '0') {
             console.log(selectedCategory.value)
-            newList = newList.filter(item => item.category_value === selectedCategory.value);
+            newList = newList.filter(item => item.category_code === selectedCategory.value.toString());
         }
         if (startDate.value.trim() !== '' && endDate.value.trim() !== '') {
             const start = new Date(startDate.value);
+            start.setHours(0, 0, 0, 0); // 시작일의 시간을 00:00:00으로 설정
+
             const end = new Date(endDate.value);
+            end.setHours(23, 59, 59, 999); // 하루의 끝으로 설정
+
             newList = newList.filter(item => {
                 const itemDate = new Date(item.store_date);
                 return itemDate >= start && itemDate <= end;
@@ -141,7 +135,7 @@ import Dropbox from './ui/dropbox.vue';
         }
 
         // store_situation filtering
-        newList = newList.filter(item => item.store_situation === '1');
+        // newList = newList.filter(item => item.store_situation === '1');
 
 
         filteredItemList.value = newList;
@@ -151,13 +145,13 @@ import Dropbox from './ui/dropbox.vue';
     // 제품, 거래처 조건검색
     function search() {
         console.log(selectedSearchOption.value);
-        let newList = storeList;
+        let newList = [...storeList.value];
         if (searchKeyword.value.trim() !== '') {
             const keyword = searchKeyword.value.trim().toLowerCase();
-            if (selectedSearchOption.value == 'product_name') {
+            if (selectedSearchOption.value == 'product_code') {
                 newList = newList.filter(item => item.product_name.toLowerCase().includes(keyword));
             } else {
-                newList = newList.filter(item => item.account_value.toLowerCase().includes(keyword));
+                newList = newList.filter(item => item.account_name.toLowerCase().includes(keyword));
             } 
         }
         filteredItemList.value = newList;

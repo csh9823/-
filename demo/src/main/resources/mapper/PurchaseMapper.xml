@@ -3,13 +3,30 @@
 <mapper namespace="com.example.demo.dao.PurchaseMapper">
 
 	<select id="purchaseList">
-		SELECT * FROM purchase a
-		INNER JOIN box_quantity b
-		    on a.boxcode = b.boxcode
+		SELECT 
+			* 
+		FROM 
+			purchase a
+		INNER JOIN 
+			box_quantity b
+		on 
+			a.box_code = b.box_code
+		INNER JOIN 
+			category c 
+		on
+			a.category_code = c.category_code
+		INNER JOIN
+			account d
+		on
+			a.account_code = d.account_code 
+		INNER JOIN
+			product e
+		on
+			a.product_code = e.product_code
 	</select>
 	
-	<select id="categoryHistory">
-		SELECT * FROM category_history
+	<select id="category">
+		SELECT * FROM category
 	</select>
 
 </mapper>
