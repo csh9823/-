@@ -25,7 +25,7 @@ public class ReleaseList {
 	private Date release_date;
 	private int store_price;
 	private int release_price;
-	
+	 
 	// 입고일, 박스 단위, 입고 수량(재고)
 	
 	private String box_name;
