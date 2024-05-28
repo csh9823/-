@@ -58,7 +58,6 @@
 			a.product_code = e.product_code
 	</select>
 	
-	
 	<select id="releasePayMent">
 		SELECT 
 			* 
