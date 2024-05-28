@@ -15,16 +15,16 @@
         <div>체크</div>
     </div>
 
-    <div class="listdate"  v-for="(storelist, index) in storelist" :key="index">
-        <div>{{storelist.VALUE}}</div>
-        <div>{{storelist.NAME}}</div>
-        <div>{{storelist.BOXCOUNT}}</div>
-        <div>{{storelist.BOXCOUNTED}}</div>
-        <div>{{storelist.QUANTITY}}</div>
-        <div>{{storelist.PRICE}}</div>
-        <div>{{storelist.ACCOUNT}}</div>
-        <div><input type="text" v-model="storelist.noadd"></div>
-        <div><input type="checkbox" :value="storelist.CODE" v-model="insert[index]"></div>
+    <div class="listdate"  v-for="(item, index) in storelist" :key="index">
+        <div>{{item.CATENAME}}</div>
+        <div>{{item.PRNAME}}</div>
+        <div>{{item.BOXCC}}</div>
+        <div>{{item.BOXCOUNT}}</div>
+        <div>{{item.QUANTITY}}</div>
+        <div>{{item.PRICE}}</div>
+        <div>{{item.ACNAME}}</div>
+        <div><input type="text" v-model="storelist[index].noadd"></div>
+        <div><input type="checkbox" :value="storelist.no" v-model="insert[index]"></div>
     </div>
 </div>
 <div class="insertform2">
@@ -63,12 +63,20 @@ const submitForm = async () => {
         checkedIndexes.push(index);
       }
     });
-    
+
+
     const dataToSend = checkedIndexes.map(index => ({
-      datees : datees.value,
-      CODE: storelist.value[index].CODE,
-      noadd: storelist.value[index].noadd,
-      BOXCOUNT: storelist.value[index].BOXCOUNT*storelist.value[index].noadd
+      NO: storelist.value[index].NO,
+      datees: datees.value,
+      noadd:storelist.value[index].noadd,
+      CATECODE: storelist.value[index].CATECODE,
+      PROCODE: storelist.value[index].PROCODE,
+      ACCCODE: storelist.value[index].ACCCODE,
+      BOXCODE: storelist.value[index].BOXCODE,
+      BOXCOUNT: storelist.value[index].BOXCOUNT,
+      QUANTITY: storelist.value[index].QUANTITY,
+      PRICE: storelist.value[index].PRICE,
+      BOXCC:  storelist.value[index].BOXCC,
     }));
     const response = await axios.post('/api/stoupdate', dataToSend); 
     await storelists();
