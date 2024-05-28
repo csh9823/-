@@ -38,4 +38,10 @@ public class CalculateController {
 		return map;
 	}
 	
+	
+	@PostMapping("/api/payMent")
+	public Map<String, Object> payMent () {
+		return cs.payMent();
+	}
+	
 }

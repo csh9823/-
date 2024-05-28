@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.service.PurchaseService;
-import com.example.demo.vo.CategoryHistory;
+import com.example.demo.vo.Category;
 import com.example.demo.vo.Purchase;
 
 @RestController
@@ -26,6 +27,8 @@ public class PurchaseController {
 		
 		List<Purchase> list = ps.purchaseList();
 		
+		System.out.println(list);
+		
 		if (list.isEmpty()) {
 			map.put("res", "fail");
 			
@@ -38,11 +41,11 @@ public class PurchaseController {
 		return map;
 	}
 	
-	@PostMapping("/api/categoryHistory")
-	public Map<String, Object> categoryHistory () {
+	@PostMapping("/api/category")
+	public Map<String, Object> category () {
 		Map<String, Object> map = new HashMap<>();
 		
-		List<CategoryHistory> list = ps.categoryHistory();
+		List<Category> list = ps.category();
 		
 		if (list.isEmpty()) {
 			map.put("res", "fail");
@@ -55,5 +58,6 @@ public class PurchaseController {
 		
 		return map;
 	}
+	
 	
 }

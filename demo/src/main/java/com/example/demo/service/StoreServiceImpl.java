@@ -10,6 +10,7 @@ import com.example.demo.dao.StoreMapper;
 
 
 import com.example.demo.vo.Store;
+import com.example.demo.vo.StoreHistory;
 
 @Service
 public class StoreServiceImpl implements StoreService{
@@ -18,8 +19,8 @@ public class StoreServiceImpl implements StoreService{
 	private StoreMapper mapper;
 
 	@Override
-	public List<Store> storeList() {
-		List<Store> list = mapper.storeList();
+	public List<StoreHistory> storeList() {
+		List<StoreHistory> list = mapper.storeList();
 		if (list.isEmpty()) {
 			return null;
 		}

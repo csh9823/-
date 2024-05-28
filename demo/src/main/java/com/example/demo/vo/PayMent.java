@@ -11,17 +11,13 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Calculate {
-
-//	  <th>입고가</th>
-//      <th>출고부서</th>
-//      <th>출고가격</th>
-//      <th>수량</th>
-//      <th>수익</th>
+public class PayMent {
 	
-	// 입고
+	// 공통
 	private String product_code;
 	private String box_code;
+		
+	// 입고
 	private String account_code;
 	private int store_quantity;
 	private int store_price;
@@ -46,5 +42,5 @@ public class Calculate {
 	
 	// 제품
 	private String product_name;
-	
+		
 }

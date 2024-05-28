@@ -10,8 +10,11 @@
         <router-link to="/listPurchaseCompleted" exact-active-class="active-link">구매완료 리스트</router-link>
         <router-link to="/store" exact-active-class="active-link">입고</router-link>
         <router-link to="/listStockCom" exact-active-class="active-link">입고완료 리스트</router-link>
+        <router-link to="/release" exact-active-class="active-link">출고</router-link>
         <router-link to="/listRelease" exact-active-class="active-link">출고 리스트</router-link>
         <router-link to="/calculate" exact-active-class="active-link">정산</router-link>
+        <router-link to="/test" exact-active-class="active-link">테스트</router-link>
+        
     </div>
 </template>
 

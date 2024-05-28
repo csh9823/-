@@ -36,12 +36,13 @@
                     <th v-if="toggleKey === 2" rowspan="2">제품명</th>
                     <th v-if="toggleKey === 2" rowspan="2">거래처</th>
 
-                    <th colspan="1">재고</th>
+                    <th colspan="2">재고</th>
                     <th colspan="3">출고</th>
                     <th rowspan="2">수익</th>
                 </tr>
                 <tr>
                     <th>입고 가격</th>
+                    <th>입고 수량</th>
                     <th>출고 가격</th>
                     <th>출고 일자</th>
                     <th>출고 수량</th>
@@ -53,30 +54,31 @@
 
                     <!-- toggleKey == 0 -->
                     <td v-if="toggleKey === 0">{{ item.product_name }}</td>
-                    <td v-if="toggleKey === 0">{{ item.department_value}}</td>
-                    <td v-if="toggleKey === 0">{{ item.account_value}}</td>
+                    <td v-if="toggleKey === 0">{{ item.department_name}}</td>
+                    <td v-if="toggleKey === 0">{{ item.account_name}}</td>
 
                     <!-- toggleKey == 1 -->
-                    <td v-if="toggleKey === 1">{{ item.account_value}}</td>
+                    <td v-if="toggleKey === 1">{{ item.account_name}}</td>
                     <td v-if="toggleKey === 1">{{ item.product_name }}</td>
-                    <td v-if="toggleKey === 1">{{ item.department_value}}</td>
+                    <td v-if="toggleKey === 1">{{ item.department_name}}</td>
 
                     <!-- toggleKey == 2 -->
-                    <td v-if="toggleKey === 2">{{ item.department_value}}</td>
+                    <td v-if="toggleKey === 2">{{ item.department_name}}</td>
                     <td v-if="toggleKey === 2">{{ item.product_name }}</td>
-                    <td v-if="toggleKey === 2">{{ item.account_value}}</td>
+                    <td v-if="toggleKey === 2">{{ item.account_name}}</td>
 
 
 
 
                     <td>{{ item.store_price }}</td>
+                    <td>{{ item.store_box }}</td>
                     <td>{{ item.release_price }}</td>
                     <td>{{ formatDate(item.release_date) }}</td>
-                    <td>{{ item.boxcount * item.release_quantity }}</td>
-                    <td>{{ (item.release_price - item.store_price) * (item.boxcount * item.release_quantity) }}</td>
+                    <td>{{ item.release_box }}</td>
+                    <td>{{ (item.release_price - item.store_price) * item.release_box }}</td>
                 </tr>
                 <tr>
-                    <td colspan="7">총 수익</td>
+                    <td colspan="8">총 수익</td>
                     <td>{{ totalProfit }}</td>
                 </tr>
 
@@ -112,7 +114,7 @@ import './css/List.css';
     const totalProfit = computed(() => {
         if (calculateList.value && Array.isArray(calculateList.value)) {
             return calculateList.value.reduce((sum, item) => {
-                return sum + (item.release_price - item.store_price) * (item.boxcount * item.release_quantity);
+                return sum + (item.release_price - item.store_price) * (item.release_box);
             }, 0);
         }
         return 0;
@@ -178,16 +180,6 @@ import './css/List.css';
         return `${year}-${month}-${day}`;
     }
 
-    // // 7일 전의 날짜를 구하기 위한 함수
-    // function getStartDate() {
-    //     const today = new Date();
-    //     today.setDate(today.getDate() - 19);
-    //     const year = today.getFullYear();
-    //     const month = String(today.getMonth() + 1).padStart(2, '0');
-    //     const day = String(today.getDate()).padStart(2, '0');
-    //     return `${year}-${month}-${day}`;
-    // }
-
     // 해당 월의 1일을 구하기 위한 함수
     function getStartDate() {
         const today = new Date();
@@ -213,7 +205,11 @@ import './css/List.css';
     
         if (startDate.value.trim() !== '' && endDate.value.trim() !== '') {
             const start = new Date(startDate.value);
+            start.setHours(0, 0, 0, 0); // 시작일의 시간을 00:00:00으로 설정
+
             const end = new Date(endDate.value);
+            end.setHours(23, 59, 59, 999); // 하루의 끝으로 설정
+
             newList = newList.filter(item => {
                 const itemDate = new Date(item.release_date);
                 return itemDate >= start && itemDate <= end;

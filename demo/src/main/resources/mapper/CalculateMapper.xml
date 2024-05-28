@@ -3,7 +3,83 @@
 <mapper namespace="com.example.demo.dao.CalculateMapper">
 
 	<select id="calculate">
-		SELECT * FROM store a INNER JOIN release b ON a.product_name = b.product_name INNER JOIN box_quantity c ON b.boxcode = c.boxcode
+		SELECT 
+			* 
+		FROM 
+			store a 
+		INNER JOIN 
+			release b 
+		ON 
+			a.product_code = b.product_code 
+		INNER JOIN 
+			box_quantity f
+		ON 
+			b.box_code = f.box_code
+		INNER JOIN 
+			category c 
+		on
+			a.category_code = c.category_code
+		INNER JOIN
+			account d
+		on
+			a.account_code = d.account_code 
+		INNER JOIN
+			product e
+		on
+			a.product_code = e.product_code
+		INNER JOIN
+			department g
+		ON
+			b.department_code = g.department_code
+		
+	</select>
+	
+	
+	<select id="storePayMent">
+		SELECT 
+			* 
+		FROM 
+			store a
+		INNER JOIN 
+			box_quantity b
+		ON 
+			a.box_code = b.box_code
+		INNER JOIN 
+			category c 
+		on
+			a.category_code = c.category_code
+		INNER JOIN
+			account d
+		on
+			a.account_code = d.account_code 
+		INNER JOIN
+			product e
+		on
+			a.product_code = e.product_code
+	</select>
+	
+	
+	<select id="releasePayMent">
+		SELECT 
+			* 
+		FROM 
+			release a
+		INNER JOIN 
+			box_quantity b
+		ON 
+			a.box_code = b.box_code
+		INNER JOIN 
+			category c 
+		on
+			a.category_code = c.category_code
+		INNER JOIN
+			department d
+		on
+			a.department_code = d.department_code 
+		INNER JOIN
+			product e
+		on
+			a.product_code = e.product_code
 	</select>
 
 </mapper>

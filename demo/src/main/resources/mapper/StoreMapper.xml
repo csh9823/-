@@ -2,10 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.StoreMapper">
 
-	<select id="storeList">
-		select * from store a
-		inner join box_quantity b
-		    on a.boxcode = b.boxcode
+	<select id="storeList" resultType="com.example.demo.vo.StoreHistory">
+		select 
+			* 
+		from 
+			store a
+		inner join 
+			box_quantity b
+		on 
+			a.box_code = b.box_code
+		INNER JOIN 
+			category c 
+		on
+			a.category_code = c.category_code
+		INNER JOIN
+			account d
+		on
+			a.account_code = d.account_code 
+		INNER JOIN
+			product e
+		on
+			a.product_code = e.product_code
 	</select>
 	
 

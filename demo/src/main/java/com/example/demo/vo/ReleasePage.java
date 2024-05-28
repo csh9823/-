@@ -11,18 +11,25 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class Release {
+public class ReleasePage {
+
 	
-	private int release_no;
+	// 입고 테이블에서 가져옴
 	private int store_no;
 	private String category_code;
 	private String product_code;
-	private String department_code;
+	private String account_code;
 	private String box_code;
-	private int release_box;
-	private int release_quantity;
-	private Date release_date;
+	private int store_box;
+	private int store_quantity;
+	private Date store_date;
 	private int store_price;
-	private int release_price;
+	
+	// 제품
+	private String product_name;
+	
+	// box
+	private String box_name;
+	private int box_count;
 	
 }

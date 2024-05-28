@@ -3,11 +3,75 @@
 <mapper namespace="com.example.demo.dao.ReleaseMapper">
 
 	<select id="releaseList">
-		SELECT * FROM release a 
-		INNER JOIN store b ON a.product_name = b.product_name
-		INNER JOIN box_quantity c ON b.boxcode = c.boxcode
+		SELECT 
+			* 
+		FROM
+			release a 
+		INNER JOIN 
+			box_quantity b
+		on 
+			a.box_code = b.box_code
+		INNER JOIN 
+			category c 
+		on
+			a.category_code = c.category_code
+		INNER JOIN
+			department d
+		ON
+			a.department_code = d.department_code
+		INNER JOIN
+			product e
+		on
+			a.product_code = e.product_code
+		INNER JOIN
+			store f
+		ON
+			a.store_no = f.store_no
 	</select>
 	
+	<select id="departmentList" resultType="com.example.demo.vo.Department">
+		SELECT * FROM department
+	</select>
+	
+	<select id="productList" resultType="com.example.demo.vo.Product">
+		SELECT * FROM product
+	</select>
+	
+	
+	<select id="ReleasePageList" resultType="com.example.demo.vo.ReleasePage">
+		SELECT 
+			* 
+		FROM 
+			store a
+		INNER JOIN 
+			box_quantity b
+		on 
+			a.box_code = b.box_code
+		INNER JOIN
+			product e
+		on
+			a.product_code = e.product_code
+	</select>
+	
+	
+	<insert id="releaseSave" parameterType="com.example.demo.vo.Release">
+		INSERT INTO
+			release (release_no, store_no, category_code, product_code, department_code, box_code, release_box, 
+					release_quantity, release_date, store_price, release_price)
+		VALUES
+			(release_seq.nextval, #{store_no}, #{category_code}, #{product_code}, #{department_code}, #{box_code}, 
+			#{release_box}, #{release_quantity}, SYSDATE, #{store_price}, #{release_price})
+			
+	</insert>
+	
+	<update id="releaseInventory" parameterType="com.example.demo.vo.Release">
+		UPDATE
+			inventory
+		SET
+			current_quantity - #{release_quantity}
+		WHERE
+			product_code = #{product_code}
+	</update>
 
 </mapper>
 

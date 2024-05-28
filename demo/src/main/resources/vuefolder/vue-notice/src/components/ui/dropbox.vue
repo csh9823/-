@@ -2,7 +2,7 @@
     <div class="container">
         <input type="checkbox" v-model="showDeleted"/>삭제된 코드 보기<br/>
         <select v-model="selectedCategory">
-            <option v-for="(option) in filteredOptions" :key="option.code" :value="option.value">{{ option.value }}</option>
+            <option v-for="(option) in filteredOptions" :key="option.category_code" :value="option.category_code">{{ option.category_name }}</option>
         </select>
     </div>
 </template>
@@ -12,14 +12,12 @@ import axios from 'axios';
 import { computed, onMounted, ref, watch } from 'vue';
 
 
-const a = ref([{ code: 0, value: 'all', situation: 1}]);
+const a = ref([{ category_code: '0', category_name: 'all', category_state: 1}]);
 
     const props = defineProps({
         options: Array,
         modelValue: {
-            type: String,
-            // default: () => [{ code: 0, value: 'all', situation: 1}]
-            
+            type: [String, Number],
             
         }
     });
@@ -27,7 +25,8 @@ const a = ref([{ code: 0, value: 'all', situation: 1}]);
 
     const fetchData = async() => {
         try {
-            const response = await axios.post("/api/categoryHistory");
+            const response = await axios.post("/api/category");
+            console.log(response)
             a.value = [...a.value, ...response.data.data];
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -40,7 +39,7 @@ const a = ref([{ code: 0, value: 'all', situation: 1}]);
         if (showDeleted.value) {
             return a.value;
         } else {
-            return a.value.filter(option => option.situation === 1);
+            return a.value.filter(option => option.category_state === 1);
         }
     });
 

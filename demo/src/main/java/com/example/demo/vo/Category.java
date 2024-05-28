@@ -10,10 +10,10 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class CategoryHistory {
+public class Category {
 
-	public int code;
-	public String value;
-	public int situation;
+	public String category_code;
+	public String category_name;
+	public int category_state;
 	
 }

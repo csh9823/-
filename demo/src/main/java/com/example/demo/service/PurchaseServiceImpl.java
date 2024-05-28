@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.PurchaseMapper;
-import com.example.demo.vo.CategoryHistory;
+import com.example.demo.vo.Category;
 import com.example.demo.vo.Purchase;
 
 @Service
@@ -26,8 +26,8 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 	
 	@Override
-	public List<CategoryHistory> categoryHistory() {
-		List<CategoryHistory> list = mapper.categoryHistory();
+	public List<Category> category() {
+		List<Category> list = mapper.category();
 		if(list.isEmpty()) {
 			return null;
 		}

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.service.StoreService;
 import com.example.demo.vo.Store;
+import com.example.demo.vo.StoreHistory;
 
 @RestController
 public class StoreController {
@@ -22,14 +23,16 @@ public class StoreController {
 		System.out.println();
 		Map<String, Object> map = new HashMap<>();
 		
-		List<Store> list = ss.storeList();
+		
+		List<StoreHistory> list = ss.storeList();
+		
 		
 		System.out.println(list);
 		
 		if (list.isEmpty()) {
 			map.put("res", "fail");
-			
 		} else {
+			
 			map.put("res", "success");
 			map.put("data", list);
 		}
