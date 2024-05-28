@@ -8,13 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.StoreMapper;
 
-<<<<<<< HEAD
 
 import com.example.demo.vo.Store;
 import com.example.demo.vo.StoreHistory;
 
-=======
->>>>>>> branch 'master' of https://github.com/csh9823/demo.git
 @Service
 public class StoreServiceImpl implements StoreService{
 	
@@ -22,7 +19,6 @@ public class StoreServiceImpl implements StoreService{
 	private StoreMapper mapper;
 
 	@Override
-<<<<<<< HEAD
 	public List<StoreHistory> storeList() {
 		List<StoreHistory> list = mapper.storeList();
 		if (list.isEmpty()) {
@@ -36,8 +32,6 @@ public class StoreServiceImpl implements StoreService{
 
 	
 	@Override
-=======
->>>>>>> branch 'master' of https://github.com/csh9823/demo.git
 	public List<HashMap<String, Object>> storelist() {
 		return mapper.storelist();
 	}
