@@ -3,39 +3,23 @@
  
 <select id="jinPurchaseList" resultType="Map">
 SELECT 
-       acvalue,
-       cateval,
-       name,
-       totalcount,
-       appcount,
-       boxcount,
-       boxcode
-FROM (
-    SELECT 
-           p.product_name AS name,
-           SUM(s.store_quantity) AS totalcount,
-           p.app_quantity AS appcount,
-           bq.boxcount,
-           p.category_value AS cateval,
-           bq.boxcode,
-           p.account_value AS acvalue
-    FROM product p
-    JOIN store s ON p.product_name = s.product_name
-    JOIN box_quantity bq ON s.boxcode = bq.boxcode
-    GROUP BY p.product_name, p.app_quantity, bq.boxcount, p.category_value, bq.boxcode, p.account_value
-) subquery
-WHERE totalcount &lt; appcount
+    p.product_code  as code,
+    p.product_name as name, 
+    p.app_quantity as pqti, 
+    i.CURRENT_QUANTITY as iqti,
+    p.category_code as pcatacode,
+    p.account_code as paccode,
+    c.category_name as cataname
+FROM product p
+INNER JOIN inventory i ON p.product_code = i.product_code
+JOIN category c ON p.category_code = c.category_code
+WHERE i.CURRENT_QUANTITY &lt; p.app_quantity
 </select>
 
  <insert id="storeadd" parameterType="Map">
-INSERT INTO store 
-(store_no,category_value, product_name, account_value, boxcode, store_quantity, store_situation, store_price) 
-VALUES (store_no_seq.NEXTVAL,#{CATEVAL},#{NAME},#{ACVALUE},#{BOXCODE},#{thisCount},'0',#{price})	
+INSERT INTO purchase (purchase_no, category_code, product_code, account_code, box_code, purchase_box, purchase_quantity, store_price, purchase_date, purchase_situation)
+VALUES (purchase_seq.NEXTVAL, #{pcatacode}, #{CODE}, #{paccode}, #{BOXCODE}, #{intinputCount}, #{intthisCount}, #{intpricet}, TRUNC(sysdate), 2)
  </insert>
 
-<insert id="purchaseadd" parameterType="Map">
-INSERT INTO purchase (category_value, product_name, boxcode, purchase_quantity, store_price, account_value, purchase_date) 
-VALUES (#{CATEVAL}, #{NAME}, #{BOXCODE}, #{thisCount}, #{price}, #{ACVALUE}, TRUNC(sysdate))	
-</insert>
 
 </mapper>

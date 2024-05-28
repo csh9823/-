@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.StoreMapper">
 
+<<<<<<< HEAD
 	<select id="storeList" resultType="com.example.demo.vo.StoreHistory">
 		select 
 			* 
@@ -28,43 +29,69 @@
 
  
 <select id="storelist" resultType="Map">
+=======
+	<select id="storelist" resultType="HashMap">
+>>>>>>> branch 'master' of https://github.com/csh9823/demo.git
 SELECT
-    s.store_no AS code,
-    s.category_value AS value,
-    s.product_name AS name,
-    s.store_quantity AS quantity,
-    s.store_price AS price,
-    s.account_value AS account,
-    (s.store_quantity / bq.boxcount) AS boxcounted,
-    bq.boxcount AS BOXCOUNT
-FROM
-    store s
-JOIN
-    box_quantity bq ON s.boxcode = bq.boxcode
-WHERE
-    s.store_situation = '0'
+    p.purchase_no AS no,
+    p.category_code AS catecode,
+    p.product_code AS procode,
+    p.account_code AS acccode,
+    p.box_code AS boxcode,
+    p.purchase_box AS boxcount, 
+    p.purchase_quantity AS quantity, 
+    p.store_price AS price,
+    p.purchase_date AS sysdates,
+    c.category_name AS catename,
+    a.account_name AS acname,
+    b.box_count AS boxcc,
+    pr.product_name AS prname
+FROM 
+    purchase p
+LEFT JOIN 
+    category c ON p.category_code = c.category_code
+LEFT JOIN 
+    account a ON p.account_code = a.account_code
+LEFT JOIN 
+    box_quantity b ON p.box_code = b.box_code
+LEFT JOIN 
+    product pr ON pr.product_code = p.product_code
+WHERE 
+    p.purchase_situation = 2
 </select>
- 
-<update id="stoupdate" parameterType="Map">
-UPDATE store
-SET store_situation = 1,
-    store_date = TO_DATE(#{datees}, 'YYYY-MM-DD'),
-WHERE store_no = #{CODE}
+	
+<update id="storeupdate" parameterType="HashMap">
+	UPDATE purchase
+    SET purchase_box = #{nobox},
+    	purchase_quantity = #{requ},
+    	purchase_situation = 1
+WHERE purchase_no = #{NO}
 </update>
 
-<update id="stoupdatecount" parameterType="Map">
-UPDATE store
-	SET store_situation = 1,
-    	store_date = TO_DATE(#{datees}, 'YYYY-MM-DD'),
-    	store_quantity = #{updatecount}
-WHERE store_no = #{CODE}
+
+<insert id="storeinsert" parameterType="HashMap" useGeneratedKeys="true" keyProperty="store_no">
+    <selectKey keyProperty="store_no" resultType="int" order="BEFORE">
+        SELECT store_seq.NEXTVAL FROM dual
+    </selectKey>
+    INSERT INTO store (store_no, category_code, product_code, account_code, box_code, store_box, store_quantity, store_date, store_price)
+    VALUES (#{store_no}, #{CATECODE}, #{PROCODE}, #{ACCCODE}, #{BOXCODE}, #{nobox}, #{requ}, TO_DATE(#{datees}, 'YYYY-MM-DD'), #{intprice})    
+</insert>
+
+<insert id="storeHistoryInsert" parameterType="HashMap">
+    INSERT INTO store_history (store_history_no, category_code, product_code, account_code, box_code, store_box, store_quantity, store_date, store_price)
+    VALUES (#{store_no}, #{CATECODE}, #{PROCODE}, #{ACCCODE}, #{BOXCODE}, #{nobox}, #{requ}, TO_DATE(#{datees}, 'YYYY-MM-DD'), #{PRICE})
+</insert>
+
+<update id="storeinventoryupdate" parameterType="HashMap">
+		UPDATE inventory
+    SET CURRENT_QUANTITY = #{reinqu}
+WHERE product_code = #{PROCODE}
 </update>
 
-<select id="stocountdate" resultType="int" parameterType="Map">
-	select 
-		store_quantity
-	from store
-	where store_no = #{CODE}
+<select id="inventoryvalue" parameterType="HashMap" resultType="int">
+	select
+CURRENT_QUANTITY 
+from inventory
+where product_code  = #{PROCODE}
 </select>
-
 </mapper>

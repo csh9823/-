@@ -27,41 +27,27 @@ public class DepartmentServiceImpl implements DepartmentService {
     	for (int i = 0; i < departmentedit.size(); i++) {
     	    HashMap<String, Object> department = departmentedit.get(i);
     	    if(department.get("deletet") != null) {
-    	    	mapper.Departmentdelete(department);
-    	    	mapper.Departmentupdatecode(department);
     	    	System.out.println("삭제완료");
         	    System.out.println("code: " + department.get("CODE"));
+        	    mapper.deleteDepartment(department);
     	    }else if(department.get("edit") != null) {
-    	    	mapper.Departmentupdatevalue(department);
-    	    	mapper.DepartmentupdatecomCdvalue(department);
         	    System.out.println("VALUE: " + department.get("VALUE"));
-        	    System.out.println("revalue: " + department.get("revalue"));
+        	    System.out.println("HP: " + department.get("HP"));
+        	    System.out.println("FAX: " + department.get("FAX"));
         	    System.out.println("code: " + department.get("CODE"));
         	    System.out.println("수정완료");
+        	    mapper.updateDepartment(department);
     	    }
     	}
 	}
 
 	@Override
-	public void Departmentadd(String departname) {
-
-		 // 첫 번째 인서트 수행 및 시퀀스 값 생성
-        Map<String, Object> DepartmentParams = new HashMap<>();
-        mapper.insertDepartment(DepartmentParams);       
-        // 삽입된 시퀀스 값을 가져옴
-        int departmentCode = (int) DepartmentParams.get("departmentCode");  
-        System.out.println(departmentCode);
-        // 두 번째 인서트 수행
-        Map<String, Object> detailParams = new HashMap<>();
-        detailParams.put("departmentCode", departmentCode);
-        detailParams.put("value", departname);
-        detailParams.put("div", "department");
-        detailParams.put("situation", 1);
-        mapper.DepartmentCategoryDetail(detailParams);
-        // 세 번째 인서트 수행
-        mapper.Departmenthistory(detailParams);
-		
-
+	public void Departmentadd(Map<String, Object> department) {
+		System.out.println(department.get("departname"));
+		System.out.println(department.get("departcode"));
+		System.out.println(department.get("departhp"));
+		System.out.println(department.get("departfax"));
+		mapper.insertDepartment(department);
 	}
 
 }

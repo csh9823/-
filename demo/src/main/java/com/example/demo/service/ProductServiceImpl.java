@@ -16,7 +16,14 @@ public class ProductServiceImpl implements ProductService {
 	private ProductMapper mapper;
 	
 	public void productadd(Map<String, Object> productData) {
+		System.out.println("등록완료");
+		System.out.println(productData.get("code"));
+		System.out.println(productData.get("name"));
+		System.out.println(productData.get("quantity"));
+		System.out.println(productData.get("catavalue"));
+		System.out.println(productData.get("accountvalue"));
 		mapper.productadd(productData);
+		mapper.insertinventory(productData);
 	}
 	
 	public List<HashMap<String, Object>> productseachlist(Map<String, Object> productData){
@@ -28,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
 			return mapper.productseachacvaluelist(productData);
 		}
 	}
+	
 	public void productedit(List<HashMap<String, Object>> productData) {
 		System.out.println(productData.get(0).get("deletet"));
 		for (int i = 0; i < productData.size(); i++) {

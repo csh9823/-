@@ -10,5 +10,5 @@ import com.example.demo.domain.Catagory;
 public interface CatagoryService {
 	public List<HashMap<String, Object>> CatagoryList();
 	public void catagoryedit(List<HashMap<String, Object>> categoryData);
-	public void catagoryadd(String cataname);
+	public void catagoryadd(String cataname,String catacode);
 }

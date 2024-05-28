@@ -1,33 +1,31 @@
 <template>
    <div class="h1div"><strong>대분류 등록</strong></div>
-    <div class="insertform">
-
-        <div class="name">
-            <span>대분류</span> 
+   <form @submit.prevent="submitForm">
+    <div class="namelist">
+        <div class="listdate">
+            <div>대분류코드</div>
+            <div>이름</div>
         </div>
-
-    <form @submit.prevent="submitForm">
-        <div class="nameinsert">
-        <input type="text" class="nameinput" v-model="cataname" name="cataname">
+        <div class="listdate">
+            <div><input type="text" class="nameinput" v-model="catacode"></div>
+            <div><input type="text" class="nameinput" v-model="cataname"></div>
         </div>
-
-        <div class="insertbtn">
         <button type="submit" class="btnsubmit">등록</button>
-        </div>
-    </form>
-
     </div>
+  </form>
 <form @submit.prevent="submitForm2">
     <div class="namelist">
         <div  class="listh1"><span><strong>대분류 리스트</strong></span></div>
 
         <div class="listdate">
-            <div>구분</div>
+            <div>코드</div>
+            <div>이름</div>
             <div>삭제하기</div>
             <div>수정하기</div>
         </div>
 
     <div class="listdate" v-for="(category, index) in categories" :key="index">
+         <div>{{ category.CODE }}</div>
          <div v-if="!edit[index]">{{ category.VALUE }}</div>
          <input v-else type="text" v-model="categories[index].VALUE" class="reinput">
           <div v-if="!edit[index]" ><input type="checkbox" :value="category.VALUE" v-model="deletet[index]"></div>
@@ -52,6 +50,7 @@ import axios from 'axios';
 
 // 변수 선언
 const cataname = ref('');
+const catacode = ref('');
 const categories = ref([]);
 const deletet = ref([]);
 const edit = ref([]);
@@ -60,11 +59,13 @@ const submitForm = async () => {
   try {
     const response = await axios.post('/api/catagoryadd', null ,{
       params: {
-        cataname: cataname.value
+        cataname: cataname.value,
+        catacode: catacode.value
       }
     });
     // 요청이 성공하면 입력값을 비웁니다.
     cataname.value = '';
+    catacode.value = '';
     await cataList();
   } catch (error) {
     console.error(error);
