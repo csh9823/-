@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.StoreMapper">
 
-<<<<<<< HEAD
 	<select id="storeList" resultType="com.example.demo.vo.StoreHistory">
 		select 
 			* 
@@ -28,10 +27,7 @@
 	
 
  
-<select id="storelist" resultType="Map">
-=======
 	<select id="storelist" resultType="HashMap">
->>>>>>> branch 'master' of https://github.com/csh9823/demo.git
 SELECT
     p.purchase_no AS no,
     p.category_code AS catecode,
